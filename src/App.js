@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import 'semantic-ui-css/semantic.min.css'
 import TopBar from './common/components/TopBar'
 
-import {
-  dataImported as _dataImported
-} from './common/actionCreators/dataImported';
-
 class App extends Component {
   render() {
-    const { data, dataImported } = this.props;
+    const { data } = this.props;
     return (
       <div className="App">
         <TopBar 
-          data={data}
-          dataImported={dataImported}
+          file={data.file}
+          rows={data.rows}
         />
       </div>
     );
@@ -25,8 +20,4 @@ class App extends Component {
 
 const mapStateToProps = state => ({ data: state.data });
 
-const mapDispatchToProps = dispatch => ({
-  dataImported: bindActionCreators(_dataImported, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

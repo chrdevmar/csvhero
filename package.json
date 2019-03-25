@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "papaparse": "^4.6.3",
+    "prop-types": "^15.7.2",
     "react": "^16.8.5",
     "react-data-grid": "^6.1.0-0",
     "react-dom": "^16.8.5",
