@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import 'semantic-ui-css/semantic.min.css'
 import TopBar from './common/components/TopBar'
+
 class App extends Component {
   render() {
     return (
@@ -12,4 +14,6 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({ data: state.data });
+
+export default connect(mapStateToProps)(App);
