@@ -16,15 +16,19 @@ import {
 const operatorOptions = [{
   key: 'eq',
   value: '=',
-  text: 'Equals'
+  text: 'Is Equal To'
+}, {
+  key: 'not',
+  value: 'not',
+  text: 'Is Not Equal To'
 }, {
   key: 'gt',
   value: '>',
-  text: 'Greater Than'
+  text: 'Is Greater Than'
 }, {
   key: 'lt',
   value: '<',
-  text: 'Less Than'
+  text: 'Is Less Than'
 }, {
   key: 'in',
   value: 'in',

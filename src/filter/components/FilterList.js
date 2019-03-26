@@ -5,6 +5,7 @@ import '../styles/FilterList.css';
 
 const labelColorMap = {
   '=': 'green',
+  'not': 'red',
   '<': 'blue',
   '>': 'purple',
   'in': 'violet',

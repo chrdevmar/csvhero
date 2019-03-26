@@ -23,6 +23,8 @@ function generateCollectionFromFilter(filters = []) {
       switch(filter.operator){
         case '=':
           return row[filter.field] === filter.value;
+        case 'not':
+          return row[filter.field] !== filter.value;
         case '>':
           return row[filter.field] > filter.value;
         case '<':
