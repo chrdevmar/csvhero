@@ -25,7 +25,7 @@ class TopBar extends Component {
       <div id="topBarRoot">
         <Segment>
           <Menu secondary>
-            <Menu.Item header>
+            <Menu.Item header as="h2" className="top-bar-header">
               CSV Hero
             </Menu.Item>
             <Menu.Item position="right">

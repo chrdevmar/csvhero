@@ -32,6 +32,7 @@ class ImportCSV extends Component {
         Papa.parse(file, {
           header: true,
           dynamicTyping: true,
+          skipEmptyLines: true,
           complete: function(results) {
             sampleRow = results.data[0];
             const columns = Object.keys(sampleRow);
