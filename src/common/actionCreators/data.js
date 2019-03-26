@@ -1,7 +1,8 @@
 import { 
   FILE_CHOSEN,
   ROW_PARSED,
-  IMPORT_COMPLETE
+  IMPORT_COMPLETE,
+  UPDATE_FILTERED_ROWS_REQUESTED
 } from '../reducers/data';
 
 export function fileChosen(data) {
@@ -22,5 +23,12 @@ export function importComplete(data) {
   return {
     type: IMPORT_COMPLETE,
     payload: data
+  }
+}
+
+export function updateFilteredRows(filter) {
+  return {
+    type: UPDATE_FILTERED_ROWS_REQUESTED,
+    payload: filter
   }
 }

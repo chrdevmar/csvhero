@@ -15,6 +15,7 @@
     "react-split-pane": "^0.1.87",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
+    "redux-saga": "^1.0.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0"
   },

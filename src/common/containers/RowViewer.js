@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import ReactDataGrid from 'react-data-grid';
 import '../styles/RowViewer.css'
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import {
+  updateFilteredRows as _updateFilteredRows
+} from '../actionCreators/data';
+
 
 class RowViewer extends Component {
   constructor(props) {
@@ -9,12 +15,16 @@ class RowViewer extends Component {
     this.state = {
       columns: [],
       ready: false,
-      rowsCount: 0
+      rowCount: 0
     }
+  }
+
+  componentDidMount(){
+    const { updateFilteredRows } = this.props;
+    updateFilteredRows();
   }
   
   componentDidUpdate(prevProps){
-    console.log('ROW VIEWER UPDATED', prevProps.data);
     const { rows } = this.props.data;
     const { rows: prevRows } = prevProps.data;
     // get columns names from localStorage
@@ -24,11 +34,11 @@ class RowViewer extends Component {
         key: col,
         name: col
       }));
-      if(prevRows.length !== rows.length) {
+      if(rows.length !== prevRows.length) {
         this.setState({
           columns,
           ready: true,
-          rowsCount: rows.length
+          rowCount: rows.length
         });
       }
     }
@@ -38,13 +48,13 @@ class RowViewer extends Component {
     const { rows } = this.props.data;
     const rowGetter = index => rows[index]
     
-    const { ready, columns, rowsCount } = this.state;
+    const { ready, columns, rowCount } = this.state;
     if(ready) {
       return (
         <ReactDataGrid
           columns={columns}
           rowGetter={rowGetter}
-          rowsCount={rowsCount}
+          rowsCount={rowCount}
         />
       )
     }
@@ -58,4 +68,8 @@ const mapStateToProps = state => ({
   data: state.data
 })
 
-export default connect(mapStateToProps)(RowViewer);
+const mapDispatchToProps = dispatch => ({
+  updateFilteredRows: bindActionCreators(_updateFilteredRows, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RowViewer);

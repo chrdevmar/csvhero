@@ -26,7 +26,7 @@ class ImportCSV extends Component {
       let [file] = acceptedFiles
       let sampleRow = null;
       fileChosen(file);
-      db[process.env.REACT_APP_INDEXED_DB_TABLE_NAME].clear()
+      db[process.env.REACT_APP_DB_TABLE_NAME].clear()
       .then(() => {
         Papa.parse(file, {
           header: true,
@@ -34,7 +34,7 @@ class ImportCSV extends Component {
             if(!sampleRow) {
               sampleRow = results.data[0];
             }
-            db[process.env.REACT_APP_INDEXED_DB_TABLE_NAME].put(results.data[0])
+            db[process.env.REACT_APP_DB_TABLE_NAME].put(results.data[0])
             rowParsed(results.data[0]);
           },
           complete: function() {
