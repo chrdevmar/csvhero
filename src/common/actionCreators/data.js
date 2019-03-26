@@ -2,7 +2,8 @@ import {
   FILE_CHOSEN,
   IMPORT_COMPLETE,
   FETCH_FILTERED_ROWS_REQUESTED,
-  COUNT_TOTAL_ROWS
+  COUNT_TOTAL_ROWS,
+  COLUMNS_UPDATED
 } from '../reducers/data';
 
 export function fileChosen(data) {
@@ -29,5 +30,12 @@ export function fetchFilteredRows(filter) {
 export function countTotalRows() {
   return {
     type: COUNT_TOTAL_ROWS,
+  }
+}
+
+export function columnsUpdated(columns) {
+  return {
+    type: COLUMNS_UPDATED,
+    payload: columns
   }
 }

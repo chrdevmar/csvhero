@@ -8,19 +8,20 @@ import {
   ROW_FILTER_UPDATED,
   IMPORT_COMPLETE,
   TOTAL_ROWS_COUNTED,
-  COUNT_TOTAL_ROWS
+  COUNT_TOTAL_ROWS,
+  COLUMNS_UPDATED
 } from '../reducers/data';
 
-function generateCollectionFromFilter(filter = {}) {
+function generateCollectionFromFilter(filters = []) {
   let collection = db[process.env.REACT_APP_DB_TABLE_NAME]
   return collection
 }
 
 function* fetchRows(){
-  const filter = yield select(state => state.data.filter);
+  const filters = yield select(state => state.filters);
 
   const filteredRowCount = yield call(() => {
-    return generateCollectionFromFilter(filter).toArray()
+    return generateCollectionFromFilter(filters).toArray()
   });
 
   yield put({
@@ -54,4 +55,10 @@ export function* watchImportComplete(){
 
 export function* watchCountTotalRows(){
 	yield takeLatest(COUNT_TOTAL_ROWS, countTotalRows);
+}
+
+export function* watchColumnsUpdated(){
+	yield takeLatest(COLUMNS_UPDATED, (action) => {
+    localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, action.payload)
+  });
 }

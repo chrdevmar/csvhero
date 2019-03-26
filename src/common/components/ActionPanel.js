@@ -46,10 +46,12 @@ class ActionPanel extends Component {
             />
           </Link>
         </Menu>
-        <Route path="/filter" exact component={Filter} />
-        <Route path="/edit" exact component={Edit} />
-        <Route path="/visualise" exact component={Visualise} />
-        <Route path="/export" exact component={Export} />
+        <div className="action-panel-content">
+          <Route path="/filter" exact component={Filter} />
+          <Route path="/edit" exact component={Edit} />
+          <Route path="/visualise" exact component={Visualise} />
+          <Route path="/export" exact component={Export} />
+        </div>
       </Router>
     )
   }

@@ -11,6 +11,7 @@ import Dropzone from 'react-dropzone';
 import {
   fileChosen as _fileChosen,
   importComplete as _importComplete,
+  columnsUpdated as _columnsUpdated,
 } from '../actionCreators/data';
 
 class ImportCSV extends Component {
@@ -20,7 +21,7 @@ class ImportCSV extends Component {
   }
 
   onFileChosen(acceptedFiles) {
-    const { fileChosen, importComplete } = this.props;
+    const { fileChosen, importComplete, columnsUpdated } = this.props;
     if(acceptedFiles.length) {
       let [file] = acceptedFiles
       let sampleRow = null;
@@ -31,9 +32,11 @@ class ImportCSV extends Component {
       .then(() => {
         Papa.parse(file, {
           header: true,
+          dynamicTyping: true,
           complete: function(results) {
             sampleRow = results.data[0];
-            let columns = Object.keys(sampleRow);
+            const columns = Object.keys(sampleRow);
+            columnsUpdated(columns);
             localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, columns);
             db[process.env.REACT_APP_DB_TABLE_NAME].bulkAdd(results.data)
             .then(() => {
@@ -80,6 +83,7 @@ const mapStateToProps = state => ({ data: state.data });
 const mapDispatchToProps = dispatch => ({
   fileChosen: bindActionCreators(_fileChosen, dispatch),
   importComplete: bindActionCreators(_importComplete, dispatch),
+  columnsUpdated: bindActionCreators(_columnsUpdated, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportCSV);

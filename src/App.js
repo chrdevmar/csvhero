@@ -6,7 +6,7 @@ import './App.css';
 import SplitPane from 'react-split-pane';
 import TopBar from './common/containers/TopBar'
 import RowViewer from './common/containers/RowViewer';
-import ActionPanel from './common/containers/ActionPanel';
+import ActionPanel from './common/components/ActionPanel';
 
 class App extends Component {
   render() {

@@ -27,18 +27,23 @@ class RowViewer extends Component {
   }
   
   componentDidUpdate(prevProps){
-    const { rows } = this.props.data;
+    const { rows, columns } = this.props.data;
     const { rows: prevRows } = prevProps.data;
     // get columns names from localStorage
-    let columnsStr = localStorage.getItem(process.env.REACT_APP_COLUMN_NAMES_KEY);
-    if(columnsStr) {
-      const columns = columnsStr.split(',').map(col => ({
+    if(columns.length) {
+      const mappedColumns = columns.map(col => ({
         key: col,
-        name: col
+        name: col,
+        formatter: ({ value }) => {
+          if(typeof value === 'object') {
+            return JSON.stringify(value);
+          }
+          return value
+        }
       }));
       if(rows.length !== prevRows.length) {
         this.setState({
-          columns,
+          columns: mappedColumns,
           ready: true,
           rowCount: rows.length
         });
@@ -61,6 +66,7 @@ class RowViewer extends Component {
             columns={columns}
             rowGetter={rowGetter}
             rowsCount={rowCount}
+
           />
         </div>
       )
