@@ -23,7 +23,8 @@ export default (state = initialState, action) => {
       ...state,
       importing: true,
       rows: [],
-      file: action.payload
+      file: action.payload,
+      totalRows: 0
     }
   case TOTAL_ROWS_COUNTED: 
     return {

@@ -11,6 +11,7 @@ import {
 import '../styles/TopBar.css';
 
 import ImportCSV from './ImportCSV';
+
 class TopBar extends Component {
 
   componentDidMount(){
@@ -25,10 +26,15 @@ class TopBar extends Component {
         <Segment>
           <Menu secondary>
             <Menu.Item header>
-              { file.name }
-              { totalRows ? ` (${totalRows} rows)` : null}
+              CSV Hero
             </Menu.Item>
             <Menu.Item position="right">
+              <div className="fileSummary">
+                <strong>
+                  { file.name }
+                  { totalRows ? ` (${totalRows} rows)` : null}
+                </strong>
+              </div>
               <ImportCSV />
             </Menu.Item>
           </Menu>

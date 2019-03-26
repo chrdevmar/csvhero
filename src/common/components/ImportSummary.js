@@ -31,7 +31,7 @@ class ImportSummary extends Component {
   }
 
   render() {
-    const { rows, importing, file } = this.props;
+    const { totalRows, importing, file } = this.props;
     return (
       <React.Fragment>
         <Message icon color="teal">
@@ -42,7 +42,7 @@ class ImportSummary extends Component {
             </Message.Header>
             { file.name }
             {' '}
-            { file.size ? `(${ rows.length } rows imported)` : null}
+            { totalRows ? `(${ totalRows } totalRows imported)` : null}
           </Message.Content>
         </Message>
       </React.Fragment>
@@ -57,7 +57,7 @@ ImportSummary.propTypes = {
   file: PropTypes.shape({
     name: PropTypes.string
   }),
-  rows: PropTypes.arrayOf(PropTypes.object),
+  totalRows: PropTypes.number,
   importing: PropTypes.bool
 }
 
@@ -65,6 +65,6 @@ ImportSummary.defaultProps = {
   file: {
     name: 'No File Imported'
   },
-  rows: [],
+  totalRows: 0,
   importing: false
 }
