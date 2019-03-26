@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import '../styles/ActionPanel.css';
 
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+import Filter from '../../filter/containers/Filter';
+import Edit from '../../edit/containers/Edit';
+import Visualise from '../../visualise/containers/Visualise';
+import Export from '../../export/containers/Export';
+
 class ActionPanel extends Component {
   constructor(props) {
     super(props);
@@ -14,30 +21,36 @@ class ActionPanel extends Component {
   }
 
   render() {
-    const { activeItem } = this.state
 
     return (
-      <React.Fragment>
+      <Router>
         <Menu pointing secondary vertical>
-          <Menu.Item name='Filter' active={activeItem === 'Filter'} onClick={this.handleItemClick} />
-          <Menu.Item
-            name='Edit'
-            active={activeItem === 'Edit'}
-            onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            name='Visualise'
-            active={activeItem === 'Visualise'}
-            onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            name='Export'
-            active={activeItem === 'Export'}
-            onClick={this.handleItemClick}
-          />
+          <Link to="/filter">
+            <Menu.Item
+              name='Filter'
+            />
+          </Link>
+          <Link to="/edit">
+            <Menu.Item 
+              name='Edit'
+            />
+          </Link>
+          <Link to="/visualise">
+            <Menu.Item 
+              name='Visualise'
+            />
+          </Link>
+          <Link to="/export">
+            <Menu.Item 
+              name='Export'
+            />
+          </Link>
         </Menu>
-        <div>Content goes here</div>
-      </React.Fragment>
+        <Route path="/filter" exact component={Filter} />
+        <Route path="/edit" exact component={Edit} />
+        <Route path="/visualise" exact component={Visualise} />
+        <Route path="/export" exact component={Export} />
+      </Router>
     )
   }
 }

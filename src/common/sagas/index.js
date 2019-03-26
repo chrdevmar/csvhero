@@ -12,7 +12,7 @@ import {
 } from '../reducers/data';
 
 function generateCollectionFromFilter(filter = {}) {
-  let collection = db[process.env.REACT_APP_DB_TABLE_NAME].limit(200)
+  let collection = db[process.env.REACT_APP_DB_TABLE_NAME]
   return collection
 }
 
