@@ -12,6 +12,7 @@
 .row-viewer-header {
   padding: 10px;
   border-top: 1px solid grey;
+  background-color: white;
 }
 
 .row-viewer-header-content {

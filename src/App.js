@@ -14,7 +14,7 @@ class App extends Component {
       <div id="App">
         <TopBar />
         <div id="AppContent">
-          <SplitPane split="horizontal" defaultSize={500} minSize={100} primary="second">
+          <SplitPane split="horizontal" defaultSize={500} minSize={0}>
             <ActionPanel/>
             <RowViewer/>
           </SplitPane>

@@ -124,7 +124,8 @@ class Filter extends Component {
         <Form onSubmit={this.addFilter}>
           <Form.Group widths='equal'>
             <Form.Select 
-              fluid 
+              fluid
+              required
               label='Field' 
               options={fieldOptions} 
               placeholder='Field'
@@ -132,7 +133,8 @@ class Filter extends Component {
               onChange={(e, data) => this.handleChange('field', data.value)}
             />
             <Form.Select 
-              fluid 
+              fluid
+              required
               label='Operator' 
               options={operatorOptions} 
               placeholder='Operator'
@@ -142,6 +144,7 @@ class Filter extends Component {
             {
               ['before', 'after'].includes(operator) ? (
                 <Form.Input
+                  required
                   control={SemanticDatepicker}
                   className="date-picker-filter-input"
                   onDateChange={date => this.handleChange('value', date)}
@@ -151,6 +154,7 @@ class Filter extends Component {
                 ) : (
                 <Form.Input
                   fluid 
+                  required
                   label='Value' 
                   type={this.getValueInputType()}
                   placeholder={this.getValuePlaceholder()} 
