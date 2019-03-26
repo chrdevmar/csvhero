@@ -6,7 +6,11 @@ import '../styles/FilterList.css';
 const labelColorMap = {
   '=': 'green',
   '<': 'blue',
-  '>': 'purple'
+  '>': 'purple',
+  'in': 'violet',
+  'not in': 'pink',
+  'after': 'orange',
+  'before': 'olive'
 }
 
 const FilterList = props => {

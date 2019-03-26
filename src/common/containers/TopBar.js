@@ -22,24 +22,22 @@ class TopBar extends Component {
   render() {
     const { file, totalRows } = this.props.data;
     return (
-      <div id="topBarRoot">
-        <Segment>
-          <Menu secondary>
-            <Menu.Item header as="h2" className="top-bar-header">
-              CSV Hero
-            </Menu.Item>
-            <Menu.Item position="right">
-              <div className="fileSummary">
-                <strong>
-                  { file.name }
-                  { totalRows ? ` (${totalRows} rows)` : null}
-                </strong>
-              </div>
-              <ImportCSV />
-            </Menu.Item>
-          </Menu>
-        </Segment>
-      </div>
+      <Segment id="topBarRoot">
+        <Menu secondary>
+          <Menu.Item header as="h2" className="top-bar-header">
+            CSV Hero
+          </Menu.Item>
+          <Menu.Item position="right">
+            <div className="fileSummary">
+              <strong>
+                { file.name }
+                { totalRows ? ` (${totalRows} rows)` : null}
+              </strong>
+            </div>
+            <ImportCSV />
+          </Menu.Item>
+        </Menu>
+      </Segment>
     )
   }
 }

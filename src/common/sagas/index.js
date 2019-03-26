@@ -1,4 +1,5 @@
 import { put, call, takeEvery, takeLatest, select } from 'redux-saga/effects';
+import { isBefore, isAfter, parse } from 'date-fns';
 
 import db from '../../util/db';
 
@@ -26,6 +27,14 @@ function generateCollectionFromFilter(filters = []) {
           return row[filter.field] > filter.value;
         case '<':
           return row[filter.field] < filter.value;
+        case 'in':
+          return filter.value.split(',').includes(row[filter.field]);
+        case 'not in':
+          return !filter.value.split(',').includes(row[filter.field]);
+        case 'before':
+          return isBefore(parse(row[filter.field]), parse(filter.value));
+        case 'after':
+          return isAfter(parse(row[filter.field]), parse(filter.value));
         default:
           return true;
       }

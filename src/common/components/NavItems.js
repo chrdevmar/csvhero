@@ -16,24 +16,28 @@ class NavItems extends Component {
       <Menu pointing secondary vertical>
         <Link to="/filter">
           <Menu.Item
+            color="teal"
             active={location.pathname === '/filter'}
             name='Filter'
           />
         </Link>
         <Link to="/edit">
           <Menu.Item
+            color="teal"
             active={location.pathname === '/edit'}
             name='Bulk Edit'
           />
         </Link>
         <Link to="/visualise">
           <Menu.Item 
+            color="teal"
             active={location.pathname === '/visualise'}
             name='Visualise'
           />
         </Link>
         <Link to="/export">
           <Menu.Item
+            color="teal"
             active={location.pathname === '/export'}
             name='Export'
           />

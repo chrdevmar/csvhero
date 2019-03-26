@@ -1,9 +1,4 @@
-/* #topBarRoot {
-  display: flex;
-  height: 74px;
-} */
-
-.ui.segment {
+#topBarRoot {
   border-radius: 0px;
   width: 100%;
   margin-bottom: 0px;

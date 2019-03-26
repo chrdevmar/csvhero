@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Header } from 'semantic-ui-react'
+import SemanticDatepicker from 'react-semantic-ui-datepickers';
+import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+import '../styles/Filter.css';
 
 import FilterList from '../components/FilterList';
 
@@ -22,6 +25,22 @@ const operatorOptions = [{
   key: 'lt',
   value: '<',
   text: 'Less Than'
+}, {
+  key: 'in',
+  value: 'in',
+  text: 'Is In',
+}, {
+  key: 'notin',
+  value: 'not in',
+  text: 'Is Not In',
+}, {
+  key: 'before',
+  value: 'before',
+  text: 'Is Before'
+}, {
+  key: 'after',
+  value: 'after',
+  text: 'Is After'
 }]
 
 class Filter extends Component {
@@ -34,15 +53,11 @@ class Filter extends Component {
     }
     this.addFilter = this.addFilter.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidUpdate(prevProp) {
-
+    this.cleanInput = this.cleanInput.bind(this);
   }
 
   addFilter(e){
     e.preventDefault();
-    console.log('here', e)
     const { field, operator, value } = this.state;
     const { addFilter } = this.props;
     addFilter({ field, operator, value})
@@ -53,7 +68,38 @@ class Filter extends Component {
     });
   }
 
+  getValueInputType(){
+    const { operator } = this.state;
+    switch(operator) {
+      case '>':
+      case '<':
+        return 'number'
+      default:
+        return 'text'
+    }
+  }
+
+  cleanInput(input) {
+    const { operator } = this.state;
+    switch(operator) {
+      case 'in':
+      case 'not in':
+        return input.replace(/\s/g, '')
+      default:
+        return input
+    }
+  }
   
+  getValuePlaceholder() {
+    const { operator } = this.state;
+    switch(operator) {
+      case 'in':
+      case 'not in':
+        return 'Comma seperated values'
+      default:
+        return 'Value'
+    }
+  }
 
   handleChange(field, value) {
     this.setState({
@@ -93,15 +139,28 @@ class Filter extends Component {
               value={operator}
               onChange={(e, data) => this.handleChange('operator', data.value)}
             />
-            <Form.Input 
-              fluid 
-              label='Value' 
-              placeholder='Value' 
-              value={value}
-              onChange={(e, data) => this.handleChange('value', data.value)}
-            />
+            {
+              ['before', 'after'].includes(operator) ? (
+                <Form.Input
+                  control={SemanticDatepicker}
+                  className="date-picker-filter-input"
+                  onDateChange={date => this.handleChange('value', date)}
+                  value={value}
+                  label="Value"
+                />
+                ) : (
+                <Form.Input
+                  fluid 
+                  label='Value' 
+                  type={this.getValueInputType()}
+                  placeholder={this.getValuePlaceholder()} 
+                  value={value}
+                  onChange={(e, data) => this.handleChange('value', this.cleanInput(data.value))}
+                />
+              )
+            }
           </Form.Group>
-          <Form.Button color="orange" content="Add Filter" size="small"/>
+          <Form.Button color="teal" content="Add Filter" size="small"/>
         </Form>
       </React.Fragment>
     )
