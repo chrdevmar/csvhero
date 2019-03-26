@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import 'semantic-ui-css/semantic.min.css'
+import './App.css';
+
+import SplitPane from 'react-split-pane';
 import TopBar from './common/components/TopBar'
+import RowViewer from './common/containers/RowViewer';
 
 class App extends Component {
   render() {
     const { data } = this.props;
     return (
-      <div className="App">
-        <TopBar 
+      <div id="App">
+        <TopBar
           file={data.file}
           rows={data.rows}
         />
+        <div id="AppContent">
+          <SplitPane split="horizontal" defaultSize={500}>
+            <div>
+            </div>
+              <RowViewer/>
+          </SplitPane>
+        </div>
       </div>
     );
   }

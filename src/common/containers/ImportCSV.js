@@ -62,7 +62,6 @@ class ImportCSV extends Component {
                 </section>
               )}
             </Dropzone>
-
         </Modal.Content>
       </Modal>
     )

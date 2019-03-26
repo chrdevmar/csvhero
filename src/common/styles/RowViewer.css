@@ -1,0 +1,6 @@
+.react-grid-Container, 
+.react-grid-Main,
+.react-grid-Canvas,
+.react-grid-Grid {
+  height: 100% !important;
+}

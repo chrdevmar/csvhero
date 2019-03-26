@@ -1,3 +1,13 @@
+/* #topBarRoot {
+  display: flex;
+  height: 74px;
+} */
+
 .ui.segment {
   border-radius: 0px;
+  width: 100%;
+  margin-bottom: 0px;
+  min-height: 74px !important;
+  max-height: 74px !important;
 }
+

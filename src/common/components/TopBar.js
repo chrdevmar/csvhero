@@ -10,17 +10,19 @@ class TopBar extends Component {
   render() {
     const { file, rows } = this.props;
     return (
-      <Segment>
-        <Menu secondary>
-          <Menu.Item header>
-            { file.name }
-            { rows.length ? ` (${rows.length} rows)` : null}
-          </Menu.Item>
-          <Menu.Item position="right">
-            <ImportCSV />
-          </Menu.Item>
-        </Menu>
-      </Segment>
+      <div id="topBarRoot">
+        <Segment>
+          <Menu secondary>
+            <Menu.Item header>
+              { file.name }
+              { rows.length ? ` (${rows.length} rows)` : null}
+            </Menu.Item>
+            <Menu.Item position="right">
+              <ImportCSV />
+            </Menu.Item>
+          </Menu>
+        </Segment>
+      </div>
     )
   }
 }

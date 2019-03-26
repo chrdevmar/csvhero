@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Message, Icon } from 'semantic-ui-react';
+import '../styles/ImportSummary.css';
 
 class ImportSummary extends Component {
   constructor(props){
@@ -32,17 +33,19 @@ class ImportSummary extends Component {
   render() {
     const { rows, importing, file } = this.props;
     return (
-      <Message icon>
-        <Icon name={this.getSummaryIcon()} loading={importing} />
-        <Message.Content>
-          <Message.Header>
-            {this.getSummaryHeader()}
-          </Message.Header>
-          { file.name }
-          {' '}
-          { file.size ? `(${ rows.length } rows imported)` : null}
-        </Message.Content>
-      </Message>
+      <React.Fragment>
+        <Message icon color="teal">
+          <Icon name={this.getSummaryIcon()} loading={importing} />
+          <Message.Content>
+            <Message.Header>
+              {this.getSummaryHeader()}
+            </Message.Header>
+            { file.name }
+            {' '}
+            { file.size ? `(${ rows.length } rows imported)` : null}
+          </Message.Content>
+        </Message>
+      </React.Fragment>
     );
   }
 }
