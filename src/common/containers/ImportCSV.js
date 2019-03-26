@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Icon, Modal } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 import * as Papa from 'papaparse';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import db from '../../util/db';
-import ImportSummary from '../components/ImportSummary';
 import Dropzone from 'react-dropzone';
 
 import {
@@ -51,29 +50,19 @@ class ImportCSV extends Component {
   render() {
     const { data } = this.props;
     return (
-      <Modal trigger={
-        <Button icon labelPosition='left' color="teal" size="small">
-          <Icon name={data.importing ? 'circle notched' : 'upload'} loading={data.importing}/>
-          Import CSV
-          </Button>
-        }
-      >
-        <Modal.Header>Import CSV Data From File</Modal.Header>
-        <Modal.Content>
-          <Dropzone onDrop={this.onFileChosen}>
-              {({getRootProps, getInputProps}) => (
-                <section>
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <ImportSummary
-                      {...data}
-                    />    
-                  </div>
-                </section>
-              )}
-            </Dropzone>
-        </Modal.Content>
-      </Modal>
+    <Dropzone onDrop={this.onFileChosen}>
+        {({getRootProps, getInputProps}) => (
+          <section>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <Button loading={data.importing} disabled={data.importing} icon labelPosition='left' color="teal" size="small">
+                <Icon name={data.importing ? 'circle notched' : 'upload'} />
+                Import CSV
+              </Button>
+            </div>
+          </section>
+        )}
+      </Dropzone>
     )
   }
 }

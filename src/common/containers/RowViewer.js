@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 import FilterList from '../../filter/components/FilterList';
 
+import { Icon } from 'semantic-ui-react';
+
 import {
   fetchFilteredRows as _fetchFilteredRows,
   countTotalRows as _countTotalRows,
@@ -28,57 +30,38 @@ class RowViewer extends Component {
     countTotalRows();
     fetchFilteredRows();
   }
-  
-  componentDidUpdate(prevProps){
-    const { rows, columns } = this.props.data;
-    const { rows: prevRows } = prevProps.data;
-    // get columns names from localStorage
-    if(columns.length) {
-      const mappedColumns = columns.map(col => ({
-        key: col,
-        name: col,
-        formatter: ({ value }) => {
-          if(typeof value === 'object') {
-            return JSON.stringify(value);
-          }
-          return value
-        }
-      }));
-      if(rows.length !== prevRows.length) {
-        this.setState({
-          columns: mappedColumns,
-          ready: true,
-          rowCount: rows.length
-        });
-      }
-    }
-  }
 
   render() {
-    const { rows, totalRows, filters } = this.props.data;
+    const { rows, columns, totalRows, filters, fetching } = this.props.data;
+    const mappedColumns = columns.map(col => ({
+      key: col,
+      name: col,
+      formatter: ({ value }) => {
+        if(typeof value === 'object') {
+          return JSON.stringify(value);
+        }
+        return value
+      }
+    }));
     const { removeFilter } = this.props;
     const rowGetter = index => rows[index]
     
-    const { ready, columns, rowCount } = this.state;
-    if(ready) {
-      return (
-        <div className="row-viewer-panel">
-          <div className="row-viewer-header">
-            <strong className="row-viewer-header-content">
-              Showing {rowCount} of { totalRows } rows
-            </strong>
-            <FilterList filters={filters} removeFilter={removeFilter} size="small"/>
-          </div>
-          <ReactDataGrid
-            columns={columns}
-            rowGetter={rowGetter}
-            rowsCount={rowCount}
-          />
-        </div>
-      )
-    }
     return (
-      <span>loading...</span>
+      <div className="row-viewer-panel">
+        <div className="row-viewer-header">
+          <strong className="row-viewer-header-content">
+            Showing
+            {' '}{ fetching ? (<Icon name="circle notched" loading></Icon>) : rows.length}{' '} 
+            of { totalRows } rows
+          </strong>
+          <FilterList filters={filters} removeFilter={removeFilter} size="small"/>
+        </div>
+        <ReactDataGrid
+          columns={mappedColumns}
+          rowGetter={rowGetter}
+          rowsCount={rows.length}
+        />
+      </div>
     )
   }
 }

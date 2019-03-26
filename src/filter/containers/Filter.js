@@ -27,19 +27,17 @@ const operatorOptions = [{
 class Filter extends Component {
   constructor(props) {
     super(props);
-    const { columns } = props;
-    this.fieldOptions = columns.map(field => ({
-      key: field,
-      value: field,
-      text: field
-    }))
     this.state = {
       operator: operatorOptions[0].value,
-      field: this.fieldOptions.length ? this.fieldOptions[0].value : '',
+      field: '',
       value: '',
     }
     this.addFilter = this.addFilter.bind(this);
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidUpdate(prevProp) {
+
   }
 
   addFilter(e){
@@ -50,7 +48,7 @@ class Filter extends Component {
     addFilter({ field, operator, value})
     this.setState({
       operator: operatorOptions[0].value,
-      field: this.fieldOptions.length ? this.fieldOptions[0].value : '',
+      field: '',
       value: '',
     });
   }
@@ -64,7 +62,12 @@ class Filter extends Component {
   }
 
   render() {
-    const { fieldOptions } = this;
+    const { columns } = this.props;
+    const fieldOptions = columns.map(field => ({
+      key: field,
+      value: field,
+      text: field
+    }))
     const { filters, removeFilter } = this.props;
     const { operator, field, value } = this.state;
     return (

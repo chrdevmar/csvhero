@@ -18,6 +18,7 @@ const initialState = {
   file: {
     name: localStorage.getItem(process.env.REACT_APP_FILE_NAME_KEY) || 'No File Imported'
   },
+  fetching: false,
   importing: false,
   filters: filtersStr ? JSON.parse(filtersStr) : [],
   totalRows: 0,
@@ -48,7 +49,13 @@ export default (state = initialState, action) => {
   case FETCH_FILTERED_ROWS_SUCCESS: 
     return {
       ...state,
+      fetching: false,
       rows: action.payload
+    }
+  case FETCH_FILTERED_ROWS_REQUESTED: 
+    return {
+      ...state,
+      fetching: true
     }
   case SET_FILTERS: 
     return {

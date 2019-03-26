@@ -17,6 +17,20 @@ import {
 
 function generateCollectionFromFilter(filters = []) {
   let collection = db[process.env.REACT_APP_DB_TABLE_NAME]
+  filters.forEach(filter => {
+    collection = collection.filter(row => {
+      switch(filter.operator){
+        case '=':
+          return row[filter.field] === filter.value;
+        case '>':
+          return row[filter.field] > filter.value;
+        case '<':
+          return row[filter.field] < filter.value;
+        default:
+          return true;
+      }
+    })
+  })
   return collection
 }
 
@@ -63,6 +77,14 @@ export function* watchCountTotalRows(){
 export function* watchColumnsUpdated(){
 	yield takeLatest(COLUMNS_UPDATED, (action) => {
     localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, action.payload)
+  });
+}
+
+export function* watchFiltersSet(){
+	yield takeLatest(SET_FILTERS, function*() {
+    yield put({
+      type: FETCH_FILTERED_ROWS_REQUESTED
+    })
   });
 }
 
