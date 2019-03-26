@@ -35,6 +35,7 @@ class RowViewer extends Component {
         key: col,
         name: col,
         formatter: ({ value }) => {
+          console.log('FORMATTING', value)
           if(typeof value === 'object') {
             return JSON.stringify(value);
           }

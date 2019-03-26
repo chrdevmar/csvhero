@@ -5,11 +5,14 @@ export const FETCH_FILTERED_ROWS_REQUESTED = 'FETCH_FILTERED_ROWS_REQUESTED';
 export const ROW_FILTER_UPDATED = 'ROW_FILTER_UPDATED';
 export const TOTAL_ROWS_COUNTED = 'TOTAL_ROWS_COUNTED';
 export const COUNT_TOTAL_ROWS = 'COUNT_TOTAL_ROWS';
-export const FILTER_ADDED = 'FILTER_ADDED';
-export const FILTER_REMOVED = 'FILTER_REMOVED';
+export const ADD_FILTER = 'ADD_FILTER';
+export const REMOVE_FILTER = 'REMOVE_FILTER';
+export const SET_FILTERS = 'SET_FILTERS';
 export const COLUMNS_UPDATED = 'COLUMNS_UPDATED';
 
 let columnsStr = localStorage.getItem(process.env.REACT_APP_COLUMN_NAMES_KEY);
+let filtersStr = localStorage.getItem(process.env.REACT_APP_FILTERS_KEY);
+console.log(filtersStr)
 
 const initialState = {
   rows: [],
@@ -17,7 +20,7 @@ const initialState = {
     name: localStorage.getItem(process.env.REACT_APP_FILE_NAME_KEY) || 'No File Imported'
   },
   importing: false,
-  filters: [],
+  filters: filtersStr ? JSON.parse(filtersStr) : [],
   totalRows: 0,
   columns: columnsStr ? columnsStr.split(',') : []
 };
@@ -48,17 +51,10 @@ export default (state = initialState, action) => {
       ...state,
       rows: action.payload
     }
-  case FILTER_ADDED: 
+  case SET_FILTERS: 
     return {
       ...state,
-      filters: [...state.filters, action.payload] 
-    }
-  case FILTER_REMOVED:
-    const filters = state.filter;
-    filters.splice(action.payload, 1);
-    return {
-      ...state,
-      filters
+      filters: action.payload
     }
   case COLUMNS_UPDATED:
     return {

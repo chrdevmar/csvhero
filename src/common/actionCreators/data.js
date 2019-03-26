@@ -3,7 +3,9 @@ import {
   IMPORT_COMPLETE,
   FETCH_FILTERED_ROWS_REQUESTED,
   COUNT_TOTAL_ROWS,
-  COLUMNS_UPDATED
+  COLUMNS_UPDATED,
+  ADD_FILTER,
+  REMOVE_FILTER,
 } from '../reducers/data';
 
 export function fileChosen(data) {
@@ -37,5 +39,19 @@ export function columnsUpdated(columns) {
   return {
     type: COLUMNS_UPDATED,
     payload: columns
+  }
+}
+
+export function addFilter(filter) {
+  return {
+    type: ADD_FILTER,
+    payload: filter
+  }
+}
+
+export function removeFilter(index) {
+  return {
+    type: REMOVE_FILTER,
+    payload: index
   }
 }

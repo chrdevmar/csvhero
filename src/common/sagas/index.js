@@ -9,7 +9,10 @@ import {
   IMPORT_COMPLETE,
   TOTAL_ROWS_COUNTED,
   COUNT_TOTAL_ROWS,
-  COLUMNS_UPDATED
+  COLUMNS_UPDATED,
+  ADD_FILTER,
+  REMOVE_FILTER,
+  SET_FILTERS,
 } from '../reducers/data';
 
 function generateCollectionFromFilter(filters = []) {
@@ -18,7 +21,7 @@ function generateCollectionFromFilter(filters = []) {
 }
 
 function* fetchRows(){
-  const filters = yield select(state => state.filters);
+  const filters = yield select(state => state.data.filters);
 
   const filteredRowCount = yield call(() => {
     return generateCollectionFromFilter(filters).toArray()
@@ -62,3 +65,28 @@ export function* watchColumnsUpdated(){
     localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, action.payload)
   });
 }
+
+export function* watchFilterAdded(){
+	yield takeEvery(ADD_FILTER, function* (action) {
+    const currentFilters = yield select(state => state.data.filters);
+    const filters = [...currentFilters, action.payload];
+    localStorage.setItem(process.env.REACT_APP_FILTERS_KEY, JSON.stringify(filters));
+    yield put({
+      type: SET_FILTERS,
+      payload: filters
+    })
+  });
+}
+
+export function* watchFilterRemoved(){
+	yield takeEvery(REMOVE_FILTER, function* (action) {
+    const filters = yield select(state => state.data.filters);
+    filters.splice(action.payload, 1);
+    localStorage.setItem(process.env.REACT_APP_FILTERS_KEY, JSON.stringify(filters));
+    yield put({
+      type: SET_FILTERS,
+      payload: filters
+    })
+  });
+}
+
