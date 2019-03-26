@@ -65,12 +65,12 @@ class Filter extends Component {
 
   render() {
     const { fieldOptions } = this;
-    const { filters } = this.props;
+    const { filters, removeFilter } = this.props;
     const { operator, field, value } = this.state;
     return (
       <React.Fragment>
         <Header as="h4">Active Filters</Header>
-        <FilterList filters={filters}/>
+        <FilterList filters={filters} removeFilter={removeFilter}/>
         <Header as="h4">Add Filter</Header>
         <Form onSubmit={this.addFilter}>
           <Form.Group widths='equal'>

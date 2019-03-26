@@ -12,7 +12,6 @@ export const COLUMNS_UPDATED = 'COLUMNS_UPDATED';
 
 let columnsStr = localStorage.getItem(process.env.REACT_APP_COLUMN_NAMES_KEY);
 let filtersStr = localStorage.getItem(process.env.REACT_APP_FILTERS_KEY);
-console.log(filtersStr)
 
 const initialState = {
   rows: [],

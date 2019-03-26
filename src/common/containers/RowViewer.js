@@ -4,9 +4,12 @@ import '../styles/RowViewer.css'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import FilterList from '../../filter/components/FilterList';
+
 import {
   fetchFilteredRows as _fetchFilteredRows,
   countTotalRows as _countTotalRows,
+  removeFilter as _removeFilter,
 } from '../actionCreators/data';
 
 
@@ -35,7 +38,6 @@ class RowViewer extends Component {
         key: col,
         name: col,
         formatter: ({ value }) => {
-          console.log('FORMATTING', value)
           if(typeof value === 'object') {
             return JSON.stringify(value);
           }
@@ -53,21 +55,24 @@ class RowViewer extends Component {
   }
 
   render() {
-    const { rows, totalRows } = this.props.data;
+    const { rows, totalRows, filters } = this.props.data;
+    const { removeFilter } = this.props;
     const rowGetter = index => rows[index]
     
     const { ready, columns, rowCount } = this.state;
     if(ready) {
       return (
-        <div className="rowViewerPanel">
-          <div className="rowViewerHeader">
-            <strong>Showing {rowCount} of { totalRows } rows</strong>
+        <div className="row-viewer-panel">
+          <div className="row-viewer-header">
+            <strong className="row-viewer-header-content">
+              Showing {rowCount} of { totalRows } rows
+            </strong>
+            <FilterList filters={filters} removeFilter={removeFilter} size="small"/>
           </div>
           <ReactDataGrid
             columns={columns}
             rowGetter={rowGetter}
             rowsCount={rowCount}
-
           />
         </div>
       )
@@ -84,7 +89,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchFilteredRows: bindActionCreators(_fetchFilteredRows, dispatch),
-  countTotalRows: bindActionCreators(_countTotalRows, dispatch)
+  countTotalRows: bindActionCreators(_countTotalRows, dispatch),
+  removeFilter: bindActionCreators(_removeFilter, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RowViewer);

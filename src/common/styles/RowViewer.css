@@ -5,12 +5,17 @@
   height: 100% !important;
 }
 
-.rowViewerPanel {
+.row-viewer-panel {
   width: 100%
 }
 
-.rowViewerHeader {
-  padding: 8px;
+.row-viewer-header {
+  padding: 10px;
   border-top: 1px solid grey;
+}
+
+.row-viewer-header-content {
+  margin-right: 10px;
+  font-size: 15px;
 }
 
