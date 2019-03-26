@@ -17,10 +17,10 @@ class App extends Component {
           rows={data.rows}
         />
         <div id="AppContent">
-          <SplitPane split="horizontal" defaultSize={500}>
+          <SplitPane split="horizontal" defaultSize={500} minSize={100} primary="second">
             <div>
             </div>
-              <RowViewer/>
+            <RowViewer/>
           </SplitPane>
         </div>
       </div>

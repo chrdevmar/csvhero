@@ -4,6 +4,7 @@ import * as Papa from 'papaparse';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import db from '../../util/db';
 import ImportSummary from '../components/ImportSummary';
 import Dropzone from 'react-dropzone';
 
@@ -23,16 +24,26 @@ class ImportCSV extends Component {
     const { fileChosen, rowParsed, importComplete } = this.props;
     if(acceptedFiles.length) {
       let [file] = acceptedFiles
+      let sampleRow = null;
       fileChosen(file);
-      Papa.parse(file, {
-        header: true,
-        step: function(results) {
-          rowParsed(results.data[0]);
-        },
-        complete: function() {
-          importComplete();
-        }
-      });
+      db[process.env.REACT_APP_INDEXED_DB_TABLE_NAME].clear()
+      .then(() => {
+        Papa.parse(file, {
+          header: true,
+          step: function(results) {
+            if(!sampleRow) {
+              sampleRow = results.data[0];
+            }
+            db[process.env.REACT_APP_INDEXED_DB_TABLE_NAME].put(results.data[0])
+            rowParsed(results.data[0]);
+          },
+          complete: function() {
+            importComplete();
+            let columns = Object.keys(sampleRow);
+            localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, columns);
+          }
+        });
+      })
     } else {
       fileChosen({});
     }
