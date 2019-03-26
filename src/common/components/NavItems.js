@@ -23,7 +23,7 @@ class NavItems extends Component {
         <Link to="/edit">
           <Menu.Item
             active={location.pathname === '/edit'}
-            name='Edit'
+            name='Bulk Edit'
           />
         </Link>
         <Link to="/visualise">

@@ -101,7 +101,7 @@ class Filter extends Component {
               onChange={(e, data) => this.handleChange('value', data.value)}
             />
           </Form.Group>
-          <Form.Button color="orange" content="Add Filter" />
+          <Form.Button color="orange" content="Add Filter" size="small"/>
         </Form>
       </React.Fragment>
     )
