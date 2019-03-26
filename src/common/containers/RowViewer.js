@@ -57,6 +57,7 @@ class RowViewer extends Component {
           <FilterList filters={filters} removeFilter={removeFilter} size="small"/>
         </div>
         <ReactDataGrid
+          minHeight={window.innerHeight - 120}
           columns={mappedColumns}
           rowGetter={rowGetter}
           rowsCount={rows.length}
