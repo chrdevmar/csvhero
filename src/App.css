@@ -14,6 +14,10 @@
   position: relative;
 }
 
+.Pane1 {
+  display: flex;
+}
+
 .Resizer {
   background: #000;
   opacity: .2;

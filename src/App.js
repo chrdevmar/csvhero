@@ -6,6 +6,7 @@ import './App.css';
 import SplitPane from 'react-split-pane';
 import TopBar from './common/containers/TopBar'
 import RowViewer from './common/containers/RowViewer';
+import ActionPanel from './common/containers/ActionPanel';
 
 class App extends Component {
   render() {
@@ -14,8 +15,7 @@ class App extends Component {
         <TopBar />
         <div id="AppContent">
           <SplitPane split="horizontal" defaultSize={500} minSize={100} primary="second">
-            <div>
-            </div>
+            <ActionPanel/>
             <RowViewer/>
           </SplitPane>
         </div>
