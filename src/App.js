@@ -4,18 +4,14 @@ import 'semantic-ui-css/semantic.min.css'
 import './App.css';
 
 import SplitPane from 'react-split-pane';
-import TopBar from './common/components/TopBar'
+import TopBar from './common/containers/TopBar'
 import RowViewer from './common/containers/RowViewer';
 
 class App extends Component {
   render() {
-    const { data } = this.props;
     return (
       <div id="App">
-        <TopBar
-          file={data.file}
-          rows={data.rows}
-        />
+        <TopBar />
         <div id="AppContent">
           <SplitPane split="horizontal" defaultSize={500} minSize={100} primary="second">
             <div>

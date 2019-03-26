@@ -10,7 +10,6 @@ import Dropzone from 'react-dropzone';
 
 import {
   fileChosen as _fileChosen,
-  rowParsed as _rowParsed,
   importComplete as _importComplete,
 } from '../actionCreators/data';
 
@@ -21,31 +20,28 @@ class ImportCSV extends Component {
   }
 
   onFileChosen(acceptedFiles) {
-    const { fileChosen, rowParsed, importComplete } = this.props;
+    const { fileChosen, importComplete } = this.props;
     if(acceptedFiles.length) {
       let [file] = acceptedFiles
       let sampleRow = null;
+      
       fileChosen(file);
+      localStorage.setItem(process.env.REACT_APP_FILE_NAME_KEY, file.name)
       db[process.env.REACT_APP_DB_TABLE_NAME].clear()
       .then(() => {
         Papa.parse(file, {
           header: true,
-          step: function(results) {
-            if(!sampleRow) {
-              sampleRow = results.data[0];
-            }
-            db[process.env.REACT_APP_DB_TABLE_NAME].put(results.data[0])
-            rowParsed(results.data[0]);
-          },
-          complete: function() {
-            importComplete();
+          complete: function(results) {
+            sampleRow = results.data[0];
             let columns = Object.keys(sampleRow);
             localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, columns);
+            db[process.env.REACT_APP_DB_TABLE_NAME].bulkAdd(results.data)
+            .then(() => {
+              importComplete(results.data.length);
+            })
           }
         });
       })
-    } else {
-      fileChosen({});
     }
   }
 
@@ -54,7 +50,7 @@ class ImportCSV extends Component {
     return (
       <Modal trigger={
         <Button icon labelPosition='left' color="teal" size="small">
-          <Icon name='upload' />
+          <Icon name={data.importing ? 'circle notched' : 'upload'} loading={data.importing}/>
           Import CSV
           </Button>
         }
@@ -83,7 +79,6 @@ const mapStateToProps = state => ({ data: state.data });
 
 const mapDispatchToProps = dispatch => ({
   fileChosen: bindActionCreators(_fileChosen, dispatch),
-  rowParsed: bindActionCreators(_rowParsed, dispatch),
   importComplete: bindActionCreators(_importComplete, dispatch),
 })
 

@@ -4,3 +4,12 @@
 .react-grid-Grid {
   height: 100% !important;
 }
+
+.rowViewerPanel {
+  width: 100%
+}
+
+.rowViewerHeader {
+  padding: 8px
+}
+

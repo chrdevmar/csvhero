@@ -1,18 +1,19 @@
 export const FILE_CHOSEN = 'FILE_CHOSEN';
-export const ROW_PARSED = 'ROW_PARSED';
 export const IMPORT_COMPLETE = 'IMPORT_COMPLETE';
-export const UPDATE_FILTERED_ROWS_SUCCESS = 'UPDATE_FILTERED_ROWS_SUCCESS';
-export const UPDATE_FILTERED_ROWS_REQUESTED = 'UPDATE_FILTERED_ROWS_REQUESTED';
+export const FETCH_FILTERED_ROWS_SUCCESS = 'FETCH_FILTERED_ROWS_SUCCESS';
+export const FETCH_FILTERED_ROWS_REQUESTED = 'FETCH_FILTERED_ROWS_REQUESTED';
 export const ROW_FILTER_UPDATED = 'ROW_FILTER_UPDATED';
-
+export const TOTAL_ROWS_COUNTED = 'TOTAL_ROWS_COUNTED';
+export const COUNT_TOTAL_ROWS = 'COUNT_TOTAL_ROWS';
 
 const initialState = {
   rows: [],
   file: {
-    name: 'No File Imported'
+    name: localStorage.getItem(process.env.REACT_APP_FILE_NAME_KEY) || 'No File Imported'
   },
   importing: false,
   filter: {},
+  totalRows: 0
 };
 
 export default (state = initialState, action) => {
@@ -24,17 +25,18 @@ export default (state = initialState, action) => {
       rows: [],
       file: action.payload
     }
-  case ROW_PARSED: 
+  case TOTAL_ROWS_COUNTED: 
     return {
       ...state,
-      rows: [...state.rows, action.payload]
+      totalRows: action.payload
     }
   case IMPORT_COMPLETE: 
     return {
       ...state,
-      importing: false
+      importing: false,
+      totalRows: action.payload
     }
-  case UPDATE_FILTERED_ROWS_SUCCESS: 
+  case FETCH_FILTERED_ROWS_SUCCESS: 
     return {
       ...state,
       rows: action.payload

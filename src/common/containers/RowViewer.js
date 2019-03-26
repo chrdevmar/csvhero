@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
-  updateFilteredRows as _updateFilteredRows
+  fetchFilteredRows as _fetchFilteredRows,
+  countTotalRows as _countTotalRows,
 } from '../actionCreators/data';
 
 
@@ -20,8 +21,9 @@ class RowViewer extends Component {
   }
 
   componentDidMount(){
-    const { updateFilteredRows } = this.props;
-    updateFilteredRows();
+    const { fetchFilteredRows, countTotalRows } = this.props;
+    countTotalRows();
+    fetchFilteredRows();
   }
   
   componentDidUpdate(prevProps){
@@ -45,17 +47,22 @@ class RowViewer extends Component {
   }
 
   render() {
-    const { rows } = this.props.data;
+    const { rows, totalRows } = this.props.data;
     const rowGetter = index => rows[index]
     
     const { ready, columns, rowCount } = this.state;
     if(ready) {
       return (
-        <ReactDataGrid
-          columns={columns}
-          rowGetter={rowGetter}
-          rowsCount={rowCount}
-        />
+        <div className="rowViewerPanel">
+          <div className="rowViewerHeader">
+            <strong>Showing {rowCount} of { totalRows } rows</strong>
+          </div>
+          <ReactDataGrid
+            columns={columns}
+            rowGetter={rowGetter}
+            rowsCount={rowCount}
+          />
+        </div>
       )
     }
     return (
@@ -69,7 +76,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateFilteredRows: bindActionCreators(_updateFilteredRows, dispatch)
+  fetchFilteredRows: bindActionCreators(_fetchFilteredRows, dispatch),
+  countTotalRows: bindActionCreators(_countTotalRows, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RowViewer);
