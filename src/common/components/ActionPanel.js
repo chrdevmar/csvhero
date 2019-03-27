@@ -15,11 +15,11 @@ class ActionPanel extends Component {
       <Router>
         <NavItems/>
         <div className="action-panel-content">
-          <Route path="/filter" exact component={Filter} />
-          <Route path="/edit" exact component={Edit} />
-          <Route path="/visualise" exact component={Visualise} />
-          <Route path="/export" exact component={Export} />
-          <Route path="/" exact render={() => (<Redirect to="/filter"></Redirect>)}/>
+          <Route path="/app/filter" exact component={Filter} />
+          <Route path="/app/edit" exact component={Edit} />
+          <Route path="/app/visualise" exact component={Visualise} />
+          <Route path="/app/export" exact component={Export} />
+          <Route path="/app" exact render={() => (<Redirect to="/app/filter"></Redirect>)}/>
         </div>
       </Router>
     )

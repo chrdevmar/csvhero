@@ -14,31 +14,31 @@ class NavItems extends Component {
     const { location } = this.props;
     return (
       <Menu pointing secondary vertical>
-        <Link to="/filter">
+        <Link to="/app/filter">
           <Menu.Item
             color="teal"
-            active={location.pathname === '/filter'}
+            active={location.pathname === '/app/filter'}
             name='Filter'
           />
         </Link>
-        <Link to="/edit">
+        <Link to="/app/edit">
           <Menu.Item
             color="teal"
-            active={location.pathname === '/edit'}
+            active={location.pathname === '/app/edit'}
             name='Bulk Edit'
           />
         </Link>
-        <Link to="/export">
+        <Link to="/app/export">
           <Menu.Item
             color="teal"
-            active={location.pathname === '/export'}
+            active={location.pathname === '/app/export'}
             name='Export'
           />
         </Link>
-        <Link to="/visualise">
+        <Link to="/app/visualise">
           <Menu.Item 
             color="teal"
-            active={location.pathname === '/visualise'}
+            active={location.pathname === '/app/visualise'}
             name='Visualise'
           />
         </Link>
