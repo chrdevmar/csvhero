@@ -9,14 +9,17 @@ const initialState = {};
 
 const sagaMiddleware = createSagaMiddleware();
 
+const middleware = [ sagaMiddleware ];
+
+if(process.env.NODE_ENV !== 'production') {
+  middleware.push(logger);
+}
+
 export default createStore(
   rootReducer,
   initialState,
   compose(
-    applyMiddleware(
-      sagaMiddleware,
-      logger
-    ),
+    applyMiddleware(...middleware),
   )
 );
 
