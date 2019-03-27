@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm i
+  build: 
+    commands:
+      - npm run build
+  post_build:
+    commands:
+      - aws s3 sync ./build/ s3://csvhero.com
+      - aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/*"
+artifacts:
+  files:
+    - 'build/*'
