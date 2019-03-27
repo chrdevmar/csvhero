@@ -28,18 +28,18 @@ class NavItems extends Component {
             name='Bulk Edit'
           />
         </Link>
-        <Link to="/visualise">
-          <Menu.Item 
-            color="teal"
-            active={location.pathname === '/visualise'}
-            name='Visualise'
-          />
-        </Link>
         <Link to="/export">
           <Menu.Item
             color="teal"
             active={location.pathname === '/export'}
             name='Export'
+          />
+        </Link>
+        <Link to="/visualise">
+          <Menu.Item 
+            color="teal"
+            active={location.pathname === '/visualise'}
+            name='Visualise'
           />
         </Link>
       </Menu>

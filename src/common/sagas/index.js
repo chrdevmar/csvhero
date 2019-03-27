@@ -68,7 +68,7 @@ function applyEditToRow({ value, valueType, field, operation }) {
         row[field] = _value;
         break;
       case 'clear':
-        row[field] = null;
+        row[field] = undefined;
         break;
       case '+':
       case 'concat':
