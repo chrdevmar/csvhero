@@ -106,7 +106,7 @@ export function* watchFilterAdded(){
     localStorage.setItem(process.env.REACT_APP_FILTERS_KEY, JSON.stringify(filters));
     yield put({
       type: SET_FILTERS,
-      payload: filters
+      payload: JSON.parse(localStorage.getItem(process.env.REACT_APP_FILTERS_KEY))
     })
   });
 }
@@ -118,7 +118,7 @@ export function* watchFilterRemoved(){
     localStorage.setItem(process.env.REACT_APP_FILTERS_KEY, JSON.stringify(filters));
     yield put({
       type: SET_FILTERS,
-      payload: filters
+      payload: JSON.parse(localStorage.getItem(process.env.REACT_APP_FILTERS_KEY))
     })
   });
 }
