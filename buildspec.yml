@@ -8,7 +8,8 @@ phases:
       - npm run build
   post_build:
     commands:
-      - aws s3 sync ./build/ s3://csvhero.com
+      - aws s3 sync ./build/ s3://csvhero.com/app/
+      - aws s3 cp ./website.html s3://csvhero.com/index.html
       - aws cloudfront create-invalidation --distribution-id ${CDN_DISTRIBUTION_ID} --paths "/*"
 artifacts:
   files:
