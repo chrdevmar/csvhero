@@ -9,6 +9,9 @@ export const ADD_FILTER = 'ADD_FILTER';
 export const REMOVE_FILTER = 'REMOVE_FILTER';
 export const SET_FILTERS = 'SET_FILTERS';
 export const COLUMNS_UPDATED = 'COLUMNS_UPDATED';
+export const APPLY_BULK_EDIT = 'APPLY_BULK_EDIT';
+export const BULK_EDIT_START = 'BULK_EDIT_START';
+export const BULK_EDIT_COMPLETE = 'BULK_EDIT_COMPLETE';
 
 let columnsStr = localStorage.getItem(process.env.REACT_APP_COLUMN_NAMES_KEY);
 let filtersStr = localStorage.getItem(process.env.REACT_APP_FILTERS_KEY);
@@ -20,6 +23,7 @@ const initialState = {
   },
   fetching: false,
   importing: false,
+  isBulkUpdating: false,
   filters: filtersStr ? JSON.parse(filtersStr) : [],
   totalRows: 0,
   columns: columnsStr ? columnsStr.split(',') : []
@@ -66,6 +70,16 @@ export default (state = initialState, action) => {
     return {
       ...state,
       columns: action.payload
+    }
+  case BULK_EDIT_START:
+    return {
+      ...state,
+      isBulkUpdating: true
+    }
+  case BULK_EDIT_COMPLETE:
+    return {
+      ...state,
+      isBulkUpdating: false
     }
 	default:
 		return state;

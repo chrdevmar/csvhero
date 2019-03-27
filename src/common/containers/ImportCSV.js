@@ -37,7 +37,6 @@ class ImportCSV extends Component {
         dynamicTyping: true,
         skipEmptyLines: true,
         complete: function(results) {
-          console.log(results)
           const columns = results.meta.fields;
           columnsUpdated(columns);
           localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, columns);

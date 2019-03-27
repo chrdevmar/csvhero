@@ -38,6 +38,10 @@ const operatorOptions = [{
   value: 'not in',
   text: 'Is Not In',
 }, {
+  key: 'contains',
+  value: 'contains',
+  text: 'Contains',
+}, {
   key: 'before',
   value: 'before',
   text: 'Is Before'

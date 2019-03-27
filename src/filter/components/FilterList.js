@@ -11,7 +11,8 @@ const labelColorMap = {
   'in': 'violet',
   'not in': 'pink',
   'after': 'orange',
-  'before': 'olive'
+  'before': 'olive',
+  'contains': 'yellow',
 }
 
 const FilterList = props => {
