@@ -72,15 +72,26 @@ class Filter extends Component {
     });
   }
 
-  getValueInputType(){
+  getInputProps() {
     const { operator } = this.state;
+    let props = {
+      type: 'text',
+      placeholder: 'Value'
+    }
     switch(operator) {
       case '>':
       case '<':
-        return 'number'
+        props.type = 'number';
+        props.step = '0.000001'
+        break;
+      case 'in':
+      case 'not in':
+        props.placeholder = 'Comma seperated values'
+        break;
       default:
-        return 'text'
+        break;
     }
+    return props;
   }
 
   cleanInput(input) {
@@ -91,17 +102,6 @@ class Filter extends Component {
         return input.replace(/\s/g, '')
       default:
         return input
-    }
-  }
-  
-  getValuePlaceholder() {
-    const { operator } = this.state;
-    switch(operator) {
-      case 'in':
-      case 'not in':
-        return 'Comma seperated values'
-      default:
-        return 'Value'
     }
   }
 
@@ -160,8 +160,7 @@ class Filter extends Component {
                   fluid 
                   required
                   label='Value' 
-                  type={this.getValueInputType()}
-                  placeholder={this.getValuePlaceholder()} 
+                  {...this.getInputProps()}
                   value={value}
                   onChange={(e, data) => this.handleChange('value', this.cleanInput(data.value))}
                 />
