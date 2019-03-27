@@ -119,7 +119,7 @@ class Filter extends Component {
                 onChange={(e, data) => this.handleChange('operation', data.value)}
               />
             </Form.Field>
-            <Form.Field required={operation === 'clear'}>
+            <Form.Field required={operation !== 'clear'}>
               <label>Value Type</label>
               <TooltipLabel 
                 message="Whether to use a fixed value, or a value stored in another column"
@@ -137,7 +137,7 @@ class Filter extends Component {
             </Form.Field>
             {
               valueType === 'dynamic' ? (
-                <Form.Field required={operation === 'clear'}>
+                <Form.Field required={operation !== 'clear'}>
                   <label>Value</label>
                   <TooltipLabel 
                     message="Name of column to draw value from"
@@ -154,7 +154,7 @@ class Filter extends Component {
                   />
                 </Form.Field>
                 ) : (
-                <Form.Field required={operation === 'clear'}>
+                <Form.Field required={operation !== 'clear'}>
                   <label>Value</label><TooltipLabel message="Value to use in operation"/>
                   <Input
                     fluid
