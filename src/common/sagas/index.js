@@ -33,9 +33,9 @@ function generateCollectionFromFilter(filters = []) {
             return row[filter.field] > filter.value;
           case '<':
             return row[filter.field] < filter.value;
-          case 'in':
+          case 'one of':
             return filter.value.split(',').includes(`${row[filter.field]}`);
-          case 'not in':
+          case 'not one of':
             return !filter.value.split(',').includes(`${row[filter.field]}`);
           case 'contains':
             return `${row[filter.field]}`.includes(`${filter.value}`);

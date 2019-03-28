@@ -30,13 +30,13 @@ const operatorOptions = [{
   value: '<',
   text: 'Is Less Than'
 }, {
-  key: 'in',
-  value: 'in',
-  text: 'Is In',
+  key: 'oneof',
+  value: 'one of',
+  text: 'Is One Of',
 }, {
-  key: 'notin',
-  value: 'not in',
-  text: 'Is Not In',
+  key: 'notoneof',
+  value: 'not one of',
+  text: 'Is Not One Of',
 }, {
   key: 'contains',
   value: 'contains',
@@ -88,8 +88,8 @@ class Filter extends Component {
         props.type = 'number';
         props.step = '0.000001'
         break;
-      case 'in':
-      case 'not in':
+      case 'one of':
+      case 'not one of':
         props.placeholder = 'Comma seperated values'
         break;
       default:
@@ -101,8 +101,8 @@ class Filter extends Component {
   cleanInput(input) {
     const { operator } = this.state;
     switch(operator) {
-      case 'in':
-      case 'not in':
+      case 'one of':
+      case 'not one of':
         return input.replace(/\s/g, '')
       default:
         return input
