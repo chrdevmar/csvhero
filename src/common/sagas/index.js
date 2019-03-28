@@ -26,19 +26,19 @@ function generateCollectionFromFilter(filters = []) {
       collection = collection.filter(row => {
         switch(filter.operator){
           case '=':
-            return row[filter.field] === filter.value;
+            return `${row[filter.field]}` === `${filter.value}`;
           case 'not':
-            return row[filter.field] !== filter.value;
+            return `${row[filter.field]}` !== `${filter.value}`;
           case '>':
             return row[filter.field] > filter.value;
           case '<':
             return row[filter.field] < filter.value;
           case 'in':
-            return filter.value.split(',').includes(row[filter.field]);
+            return filter.value.split(',').includes(`${row[filter.field]}`);
           case 'not in':
-            return !filter.value.split(',').includes(row[filter.field]);
+            return !filter.value.split(',').includes(`${row[filter.field]}`);
           case 'contains':
-            return `${row[filter.field]}`.includes(filter.value);
+            return `${row[filter.field]}`.includes(`${filter.value}`);
           case 'before':
             return isBefore(parse(row[filter.field]), parse(filter.value));
           case 'after':
