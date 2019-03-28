@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Label, Icon } from 'semantic-ui-react';
+import { parse, format } from 'date-fns'
 import '../styles/FilterList.css';
 
 const labelColorMap = {
@@ -13,6 +14,13 @@ const labelColorMap = {
   'after': 'orange',
   'before': 'olive',
   'contains': 'yellow',
+}
+
+function formatValue(filter) {
+  if(['before', 'after'].includes(filter.operator)) {
+    return format(parse(filter.value), 'Do MMM YYYY');
+  }
+  return filter.value;
 }
 
 const FilterList = props => {
@@ -28,7 +36,7 @@ const FilterList = props => {
                 color={labelColorMap[filter.operator]}
                 size={size}
                 >
-                {`${filter.field} ${filter.operator} ${filter.value}`}
+                {`${filter.field} ${filter.operator} ${formatValue(filter)}`}
                 <Icon 
                   name='delete'
                   onClick={() => removeFilter(index)}
