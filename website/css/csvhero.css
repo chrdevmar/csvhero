@@ -26,6 +26,11 @@ h6 {
   letter-spacing: 0.1rem;
 }
 
+.social-link {
+  font-size: 2em;
+  margin: 0px 5px;
+}
+
 .bg-black {
   background-color: #000 !important;
 }
