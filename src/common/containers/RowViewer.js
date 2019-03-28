@@ -41,7 +41,8 @@ class RowViewer extends Component {
           return JSON.stringify(value);
         }
         return value
-      }
+      },
+      resizable: true
     }));
     const { removeFilter } = this.props;
     const rowGetter = index => rows[index]
