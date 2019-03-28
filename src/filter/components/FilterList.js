@@ -14,6 +14,7 @@ const labelColorMap = {
   'after': 'orange',
   'before': 'olive',
   'contains': 'yellow',
+  'is empty': 'brown',
 }
 
 function formatValue(filter) {

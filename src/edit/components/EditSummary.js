@@ -1,4 +1,5 @@
 import React from 'react';
+import { parse, format } from 'date-fns'
 import { Message } from 'semantic-ui-react';
 
 function start(field, operation) {
@@ -61,12 +62,31 @@ function end(field, operation, value, valueType) {
   }
 }
 
+function formatValue(filter) {
+  if(['before', 'after'].includes(filter.operator)) {
+    return format(parse(filter.value), 'Do MMM YYYY');
+  }
+  return filter.value;
+}
+
 const EditSummary = props => {
-  const { field, operation, valueType, value} = props;
+  const { field, operation, valueType, value, filters} = props;
   return (
     <Message color="yellow">
       <Message.Header>Bulk Operation Summary</Message.Header>
-      {`${start(field, operation)} ${end(field, operation, value, valueType)}`}
+      <p>
+        <strong>
+          {`${start(field, operation)} ${end(field, operation, value, valueType)}`}
+        </strong>
+      </p>
+      { filters.map((filter, index) => (
+        <span key={`${filter.field}${filter.operator}${filter.value}`}>
+          {index === 0 ? 'where' : 'and'} 
+          {' '}
+          {`${filter.field} ${filter.operator} ${formatValue(filter)}`}
+          <br/>
+        </span>
+      ))}
     </Message>
   )
 }

@@ -81,7 +81,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { columns, rows, isBulkUpdating } = this.props;
+    const { filters, columns, rows, isBulkUpdating } = this.props;
     const fieldOptions = columns.map(field => ({
       key: field,
       value: field,
@@ -168,7 +168,13 @@ class Filter extends Component {
               )
             }
           </Form.Group>
-          <EditSummary field={field} operation={operation} valueType={valueType} value={value}/>
+          <EditSummary 
+            field={field} 
+            operation={operation} 
+            valueType={valueType} 
+            value={value}
+            filters={filters}
+          />
           <Form.Button 
             color="teal" 
             content={`Apply to ${rows.length} filtered rows`} 

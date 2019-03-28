@@ -29,6 +29,8 @@ function generateCollectionFromFilter(filters = []) {
             return `${row[filter.field]}` === `${filter.value}`;
           case 'not':
             return `${row[filter.field]}` !== `${filter.value}`;
+          case 'is empty':
+            return row[filter.field] == null;
           case '>':
             return row[filter.field] > filter.value;
           case '<':

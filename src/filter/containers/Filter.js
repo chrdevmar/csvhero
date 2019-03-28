@@ -22,6 +22,10 @@ const operatorOptions = [{
   value: 'not',
   text: 'Is Not Equal To'
 }, {
+  key: 'empty',
+  value: 'is empty',
+  text: 'Is Missing/Empty'
+}, {
   key: 'gt',
   value: '>',
   text: 'Is Greater Than'
@@ -80,7 +84,8 @@ class Filter extends Component {
     const { operator } = this.state;
     let props = {
       type: 'text',
-      placeholder: 'Value'
+      placeholder: 'Value',
+      required: true
     }
     switch(operator) {
       case '>':
@@ -91,6 +96,10 @@ class Filter extends Component {
       case 'one of':
       case 'not one of':
         props.placeholder = 'Comma seperated values'
+        break;
+      case 'is empty':
+        props.required = false;
+        props.disabled = true;
         break;
       default:
         break;
@@ -162,7 +171,6 @@ class Filter extends Component {
                 ) : (
                 <Form.Input
                   fluid 
-                  required
                   label='Value' 
                   {...this.getInputProps()}
                   value={value}
