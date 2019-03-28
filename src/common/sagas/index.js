@@ -65,7 +65,7 @@ function applyEditToRow({ value, valueType, field, operation }) {
     }
     switch(operation){
       case 'set':
-        row[field] = _value;
+        row[field] = isNaN(value) ? _value : Number(_value);
         break;
       case 'clear':
         row[field] = undefined;
