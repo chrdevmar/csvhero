@@ -86,7 +86,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { filters, columns, rows, isBulkUpdating, removeFilter } = this.props;
+    const { filters, columns, rows, totalRows, isBulkUpdating, removeFilter } = this.props;
     const fieldOptions = columns.map(field => ({
       key: field,
       value: field,
@@ -183,7 +183,7 @@ class Filter extends Component {
           />
           <Form.Button 
             color="orange" 
-            content={`Apply to ${rows.length} filtered rows`} 
+            content={`Apply to ${filters.length ? `${rows.length} filtered` : `all ${totalRows}`} rows`} 
             size="small"
             loading={isBulkUpdating}
           />
@@ -197,7 +197,8 @@ const mapStateToProps = state => ({
   filters: state.data.filters,
   columns: state.data.columns,
   rows: state.data.rows,
-  isBulkUpdating: state.data.isBulkUpdating
+  isBulkUpdating: state.data.isBulkUpdating,
+  totalRows: state.data.totalRows
 })
 
 const mapDispatchToProps = dispatch => ({
