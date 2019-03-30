@@ -1,3 +1,13 @@
 .filter-list {
   display: inline-block;
 }
+
+.filter-item {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.filter-item-newline {
+  margin: 0px;
+  margin-top: 5px;
+}

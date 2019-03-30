@@ -6,9 +6,14 @@ import '../styles/Edit.css';
 
 import TooltipLabel from '../../common/components/TooltipLabel';
 import EditSummary from '../components/EditSummary';
+
 import {
   applyBulkEdit as _applyBulkEdit
 } from '../actionCreators';
+
+import {
+  removeFilter as _removeFilter
+} from '../../common/actionCreators/data';
 
 const operationOptions = [{
   key: 'set',
@@ -81,7 +86,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { filters, columns, rows, isBulkUpdating } = this.props;
+    const { filters, columns, rows, isBulkUpdating, removeFilter } = this.props;
     const fieldOptions = columns.map(field => ({
       key: field,
       value: field,
@@ -174,9 +179,10 @@ class Filter extends Component {
             valueType={valueType} 
             value={value}
             filters={filters}
+            removeFilter={removeFilter}
           />
           <Form.Button 
-            color="teal" 
+            color="orange" 
             content={`Apply to ${rows.length} filtered rows`} 
             size="small"
             loading={isBulkUpdating}
@@ -195,7 +201,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  applyBulkEdit: bindActionCreators(_applyBulkEdit, dispatch)
+  applyBulkEdit: bindActionCreators(_applyBulkEdit, dispatch),
+  removeFilter: bindActionCreators(_removeFilter, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

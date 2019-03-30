@@ -1,23 +1,33 @@
 import React from 'react';
-import { parse, format } from 'date-fns'
-import { Message } from 'semantic-ui-react';
+import { Message, Label } from 'semantic-ui-react';
+
+import FilterList from '../../filter/components/FilterList'
+import '../styles/EditSummary.css';
 
 function start(field, operation) {
   switch (operation){
     case 'set':
-      return `Set the value of '${field}' to`;
+      return <span>
+        Set the value of <Label content={field || <i>Choose a Field</i>} color="teal"/> {'to '}
+      </span>
     case 'clear':
-      return `Clear`;
+      return <span>{'Clear '}</span>;
     case '+':
-      return `Add`;
+      return <span>{'Add '}</span>;
     case '-':
-      return `Subtract`;
+      return <span>{'Subtract '}</span>;
     case '*':
-      return `Multiply the value of '${field}' by`;
+      return <span>
+        Multiply the value of  <Label content={field || <i>Choose a Field</i>} color="teal"/> {'by '}
+      </span>;
     case '/':
-      return `Divide the value of '${field}' by`;
+      return <span>
+        Divide the value of <Label content={field || <i>Choose a Field</i>} color="teal"/> {'by '}
+      </span>;
     case 'concat':
-      return `Concatenate the value of '${field}' with`;
+      return <span>
+        Concatenate the value of <Label content={field || <i>Choose a Field</i>} color="teal"/> {'with '} 
+      </span>;
     default: 
       break;
   }
@@ -27,66 +37,97 @@ function end(field, operation, value, valueType) {
   switch(operation) {
     case 'set':
       if(valueType === 'fixed') {
-        return `${value}`;
+        return <Label content={value || <i>Enter a Value</i>} color="teal"/>;
       }
-      return `the value of '${value}'`
+      return <span>
+        the value of <Label content={value || <i>Choose a Field</i>} color="teal"/>
+      </span>
     case 'clear':
-      return `the value of '${field}'`
+      return <span>
+        the value of <Label content={field || <i>Choose a Field</i>} color="teal"/>
+      </span>
     case '+':
       if(valueType === 'fixed') {
-        return `${value} to the value of '${field}'`;
+        return <span>
+         <Label content={value || <i>Enter a Value</i>} color="teal"/>
+         {' to the value of '}
+         <Label content={field || <i>Choose a Field</i>} color="teal"/>
+        </span>
       }
-      return `the value of '${value}' to the value of '${field}'`
+      return <span>
+        {' the value of '}
+        <Label content={value || <i>Choose a Field</i>} color="teal"/>
+        {' to the value of '} 
+        <Label content={field || <i>Choose a Field</i>} color="teal"/>
+      </span>
     case '-':
       if(valueType === 'fixed') {
-        return `${value} from the value of '${field}'`;
+        return <span>
+        <Label content={value || <i>Enter a Value</i>} color="teal"/>
+        {' from the value of '}
+        <Label content={field || <i>Choose a Field</i>} color="teal"/>
+        </span>
       }
-      return `the value of '${value}' from the value of '${field}'`
+      return <span>
+        {' the value of '}
+        <Label content={value || <i>Choose a Field</i>} color="teal"/>
+        {' from the value of '} 
+        <Label content={field || <i>Choose a Field</i>} color="teal"/>
+      </span>
     case '*':
       if(valueType === 'fixed') {
-        return `${value}`;
+        return <span>
+        <Label content={value || <i>Enter a Value</i>} color="teal"/>
+        </span>
       }
-      return `the value of '${value}'`
+      return <span>
+        {' the value of '}
+        <Label content={value || <i>Choose a Field</i>} color="teal"/>
+      </span>
     case '/':
       if(valueType === 'fixed') {
-        return `${value}`;
+        return <span>
+        <Label content={value || <i>Enter a Value</i>} color="teal"/>
+        </span>
       }
-      return `the value of '${value}'`
+      return <span>
+        {' the value of '}
+        <Label content={value || <i>Choose a Field</i>} color="teal"/>
+      </span>
     case 'concat':
       if(valueType === 'fixed') {
-        return `'${value}'`;
+        return <span>
+        <Label content={value || <i>Enter a Value</i>} color="teal"/>
+        </span>
       }
-      return `the value of '${value}'`
+      return <span>
+        {' the value of '}
+        <Label content={value || <i>Choose a Field</i>} color="teal"/>
+      </span>
     default: 
     break;
   }
 }
 
-function formatValue(filter) {
-  if(['before', 'after'].includes(filter.operator)) {
-    return format(parse(filter.value), 'Do MMM YYYY');
-  }
-  return filter.value;
-}
-
 const EditSummary = props => {
-  const { field, operation, valueType, value, filters} = props;
+  const { field, operation, valueType, value, filters, removeFilter} = props;
   return (
-    <Message color="yellow">
+    <Message color="teal">
       <Message.Header>Bulk Operation Summary</Message.Header>
-      <p>
+      <div className="edit-summary-sentence">
         <strong>
-          {`${start(field, operation)} ${end(field, operation, value, valueType)}`}
+          { start(field, operation) }
+          { end(field, operation, value, valueType) }
         </strong>
-      </p>
-      { filters.map((filter, index) => (
-        <span key={`${filter.field}${filter.operator}${filter.value}`}>
-          {index === 0 ? 'where' : 'and'} 
-          {' '}
-          {`${filter.field} ${filter.operator} ${formatValue(filter)}`}
-          <br/>
-        </span>
-      ))}
+      </div>
+      {
+        filters.length ? (
+          <React.Fragment>
+            <strong>Where </strong><br/>
+            <FilterList filters={filters} removeFilter={removeFilter} newlines/>
+          </React.Fragment>
+        ) : null
+      }
     </Message>
   )
 }

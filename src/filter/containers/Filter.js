@@ -179,7 +179,7 @@ class Filter extends Component {
               )
             }
           </Form.Group>
-          <Form.Button color="teal" content="Add Filter" size="small"/>
+          <Form.Button color="orange" content="Add Filter" size="small"/>
         </Form>
       </React.Fragment>
     )

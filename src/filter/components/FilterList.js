@@ -25,24 +25,27 @@ function formatValue(filter) {
 }
 
 const FilterList = props => {
-  const { filters, removeFilter, size } = props;
+  const { filters, removeFilter, size, newlines } = props;
   return (
-    <div className="filter-list">
+    <div className={ newlines ? null : 'filter-list'}>
       {
         filters.length ? (
           <div>
             {filters.map((filter, index) => (
-              <Label 
-                key={`${filter.field}${filter.operator}${filter.value}`} 
-                color={labelColorMap[filter.operator]}
-                size={size}
-                >
-                {`${filter.field} ${filter.operator} ${formatValue(filter)}`}
-                <Icon 
-                  name='delete'
-                  onClick={() => removeFilter(index)}
-                />
-              </Label>
+              <React.Fragment key={`${filter.field}${filter.operator}${filter.value}`}>
+                <div className={newlines ? 'filter-item-newline' : 'filter-item' }>
+                  <Label
+                    color={labelColorMap[filter.operator]}
+                    size={size}
+                    >
+                    {`${filter.field} ${filter.operator} ${formatValue(filter)}`}
+                    <Icon 
+                      name='delete'
+                      onClick={() => removeFilter(index)}
+                    />
+                  </Label>
+                </div>
+              </React.Fragment>
             ))}
           </div>
         ) : (
@@ -62,11 +65,13 @@ FilterList.propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object),
   removeFilter: PropTypes.func.isRequired,
   size: PropTypes.string,
+  newlines: PropTypes.bool
 }
 
 FilterList.defaultProps = {
   filters: [],
   size: 'medium',
+  newlines: false
 }
 
 export default FilterList
