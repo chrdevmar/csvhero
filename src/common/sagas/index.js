@@ -23,6 +23,8 @@ function generateCollectionFromFilter(filters = []) {
   let collection = db[process.env.REACT_APP_DB_TABLE_NAME]
   if(filters.length) {
     filters.forEach(filter => {
+      const queryTerms = String(filter.value).split(',').map(term => term.trim());
+      const queryDate = parse(filter.value)
       collection = collection.filter(row => {
         switch(filter.operator){
           case '=':
@@ -36,15 +38,15 @@ function generateCollectionFromFilter(filters = []) {
           case '<':
             return row[filter.field] < filter.value;
           case 'one of':
-            return filter.value.split(',').includes(`${row[filter.field]}`);
+            return queryTerms.includes(`${row[filter.field]}`);
           case 'not one of':
-            return !filter.value.split(',').includes(`${row[filter.field]}`);
+            return !queryTerms.includes(`${row[filter.field]}`);
           case 'contains':
             return `${row[filter.field]}`.includes(`${filter.value}`);
           case 'before':
-            return isBefore(parse(row[filter.field]), parse(filter.value));
+            return isBefore(parse(row[filter.field]), queryDate);
           case 'after':
-            return isAfter(parse(row[filter.field]), parse(filter.value));
+            return isAfter(parse(row[filter.field]), queryDate);
           default:
             return true;
         }

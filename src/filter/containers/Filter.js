@@ -65,7 +65,6 @@ class Filter extends Component {
     }
     this.addFilter = this.addFilter.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.cleanInput = this.cleanInput.bind(this);
   }
 
   addFilter(e){
@@ -105,17 +104,6 @@ class Filter extends Component {
         break;
     }
     return props;
-  }
-
-  cleanInput(input) {
-    const { operator } = this.state;
-    switch(operator) {
-      case 'one of':
-      case 'not one of':
-        return input.replace(/\s/g, '')
-      default:
-        return input
-    }
   }
 
   handleChange(field, value) {
@@ -174,7 +162,7 @@ class Filter extends Component {
                   label='Value' 
                   {...this.getInputProps()}
                   value={value}
-                  onChange={(e, data) => this.handleChange('value', this.cleanInput(data.value))}
+                  onChange={(e, data) => this.handleChange('value', data.value)}
                 />
               )
             }
