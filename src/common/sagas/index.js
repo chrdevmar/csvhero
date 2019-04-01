@@ -98,8 +98,15 @@ function applyEditToRow({ value, valueType, field, operation }) {
 
 function* updateRow(action){
   const { fromRow, updated } = action.payload;
+  // make sure updated row types are retained
+  Object.keys(updated).forEach(key => {
+    if(!isNaN(updated[key])) {
+      updated[key] = Number(updated[key])
+    }
+  })
   const rows = yield select(state => state.data.rows);
   const row = rows[fromRow];
+  
   rows.splice(fromRow, 1, {...row, ...updated});
 
   yield put({
