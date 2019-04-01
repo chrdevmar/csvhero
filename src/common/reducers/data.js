@@ -13,6 +13,7 @@ export const APPLY_BULK_EDIT = 'APPLY_BULK_EDIT';
 export const BULK_EDIT_START = 'BULK_EDIT_START';
 export const BULK_EDIT_COMPLETE = 'BULK_EDIT_COMPLETE';
 export const ROW_UPDATED = 'ROW_UPDATED';
+export const SET_ROWS = 'SET_ROWS';
 
 let columnsStr = localStorage.getItem(process.env.REACT_APP_COLUMN_NAMES_KEY);
 let filtersStr = localStorage.getItem(process.env.REACT_APP_FILTERS_KEY);
@@ -81,6 +82,11 @@ export default (state = initialState, action) => {
     return {
       ...state,
       isBulkUpdating: false
+    }
+  case SET_ROWS:
+    return {
+      ...state,
+      rows: action.payload
     }
 	default:
 		return state;

@@ -18,6 +18,7 @@ import {
   BULK_EDIT_START,
   BULK_EDIT_COMPLETE,
   ROW_UPDATED,
+  SET_ROWS,
 } from '../reducers/data';
 
 function generateCollectionFromFilter(filters = []) {
@@ -102,12 +103,11 @@ function* updateRow(action){
   rows.splice(fromRow, 1, {...row, ...updated});
 
   yield put({
-    type: FETCH_FILTERED_ROWS_SUCCESS,
+    type: SET_ROWS,
     payload: [...rows],
   });
 
   db[process.env.REACT_APP_DB_TABLE_NAME].update(row.id, updated)
-
 }
 
 function* fetchRows(){
