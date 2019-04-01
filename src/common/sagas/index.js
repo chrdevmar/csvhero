@@ -100,7 +100,7 @@ function* updateRow(action){
   const { fromRow, updated } = action.payload;
   // make sure updated row types are retained
   Object.keys(updated).forEach(key => {
-    if(!isNaN(updated[key])) {
+    if(updated[key] && !isNaN(updated[key])) {
       updated[key] = Number(updated[key])
     }
   })
