@@ -12,6 +12,7 @@ export const COLUMNS_UPDATED = 'COLUMNS_UPDATED';
 export const APPLY_BULK_EDIT = 'APPLY_BULK_EDIT';
 export const BULK_EDIT_START = 'BULK_EDIT_START';
 export const BULK_EDIT_COMPLETE = 'BULK_EDIT_COMPLETE';
+export const ROW_UPDATED = 'ROW_UPDATED';
 
 let columnsStr = localStorage.getItem(process.env.REACT_APP_COLUMN_NAMES_KEY);
 let filtersStr = localStorage.getItem(process.env.REACT_APP_FILTERS_KEY);

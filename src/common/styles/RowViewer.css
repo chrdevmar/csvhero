@@ -20,3 +20,9 @@
   font-size: 15px;
 }
 
+.react-grid-Cell {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

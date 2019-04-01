@@ -6,6 +6,7 @@ import {
   COLUMNS_UPDATED,
   ADD_FILTER,
   REMOVE_FILTER,
+  ROW_UPDATED
 } from '../reducers/data';
 
 export function fileChosen(data) {
@@ -53,5 +54,12 @@ export function removeFilter(index) {
   return {
     type: REMOVE_FILTER,
     payload: index
+  }
+}
+
+export function updateRow(newRowValue) {
+  return {
+    type: ROW_UPDATED,
+    payload: newRowValue
   }
 }

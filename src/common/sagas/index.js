@@ -17,6 +17,7 @@ import {
   APPLY_BULK_EDIT,
   BULK_EDIT_START,
   BULK_EDIT_COMPLETE,
+  ROW_UPDATED,
 } from '../reducers/data';
 
 function generateCollectionFromFilter(filters = []) {
@@ -94,16 +95,31 @@ function applyEditToRow({ value, valueType, field, operation }) {
   }
 }
 
+function* updateRow(action){
+  const { fromRow, updated } = action.payload;
+  const rows = yield select(state => state.data.rows);
+  const row = rows[fromRow];
+  rows.splice(fromRow, 1, {...row, ...updated});
+
+  yield put({
+    type: FETCH_FILTERED_ROWS_SUCCESS,
+    payload: [...rows],
+  });
+
+  db[process.env.REACT_APP_DB_TABLE_NAME].update(row.id, updated)
+
+}
+
 function* fetchRows(){
   const filters = yield select(state => state.data.filters);
 
-  const filteredRowCount = yield call(() => {
+  const filteredRows = yield call(() => {
     return generateCollectionFromFilter(filters).toArray()
   });
 
   yield put({
     type: FETCH_FILTERED_ROWS_SUCCESS,
-    payload: filteredRowCount,
+    payload: filteredRows,
   });
 }
 
@@ -140,7 +156,11 @@ function* applyBulkEdit(action){
 }
 
 export function* watchFetchFilteredRowsRequested(){
-	yield takeEvery(FETCH_FILTERED_ROWS_REQUESTED, fetchRows);
+	yield takeLatest(FETCH_FILTERED_ROWS_REQUESTED, fetchRows);
+}
+
+export function* watchRowUpdate(){
+	yield takeLatest(ROW_UPDATED, updateRow);
 }
 
 export function* watchRowFilterUpdated(){

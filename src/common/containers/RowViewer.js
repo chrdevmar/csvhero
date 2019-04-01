@@ -12,6 +12,7 @@ import {
   fetchFilteredRows as _fetchFilteredRows,
   countTotalRows as _countTotalRows,
   removeFilter as _removeFilter,
+  updateRow as _updateRow,
 } from '../actionCreators/data';
 
 
@@ -23,12 +24,21 @@ class RowViewer extends Component {
       ready: false,
       rowCount: 0
     }
+    this.updateRow = this.updateRow.bind(this)
   }
 
   componentDidMount(){
     const { fetchFilteredRows, countTotalRows } = this.props;
     countTotalRows();
     fetchFilteredRows();
+  }
+
+  updateRow({ fromRow, updated }) {
+    const { updateRow } = this.props;
+    updateRow({
+      fromRow,
+      updated
+    });
   }
 
   render() {
@@ -42,7 +52,8 @@ class RowViewer extends Component {
         }
         return value
       },
-      resizable: true
+      resizable: true,
+      editable: true
     }));
     const { removeFilter } = this.props;
     const rowGetter = index => rows[index]
@@ -61,6 +72,8 @@ class RowViewer extends Component {
           minHeight={window.innerHeight - 120}
           columns={mappedColumns}
           rowGetter={rowGetter}
+          enableCellSelect
+          onGridRowsUpdated={this.updateRow}
           rowsCount={rows.length}
         />
       </div>
@@ -76,6 +89,7 @@ const mapDispatchToProps = dispatch => ({
   fetchFilteredRows: bindActionCreators(_fetchFilteredRows, dispatch),
   countTotalRows: bindActionCreators(_countTotalRows, dispatch),
   removeFilter: bindActionCreators(_removeFilter, dispatch),
+  updateRow: bindActionCreators(_updateRow, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RowViewer);
