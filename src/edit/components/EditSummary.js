@@ -113,7 +113,7 @@ const EditSummary = props => {
   const { field, operation, valueType, value, filters, removeFilter} = props;
   return (
     <Message color="teal">
-      <Message.Header>Bulk Operation Summary</Message.Header>
+      <Message.Header>Bulk Update Summary</Message.Header>
       <div className="edit-summary-sentence">
         <strong>
           { start(field, operation) }

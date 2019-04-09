@@ -25,7 +25,7 @@ class NavItems extends Component {
           <Menu.Item
             color="teal"
             active={location.pathname === '/app/edit'}
-            name='Bulk Edit'
+            name='Bulk Update'
           />
         </Link>
         <Link to="/app/export">
