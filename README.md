@@ -1,4 +1,19 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## CSV Hero React App and Website
+
+This repository holds the source code for [CSV Hero](https://csvhero.com) free browser-based query tool and bulk editor.  
+
+## Environment Variables
+
+Set the following environment variables in a .env file before running locally
+
+- **REACT_APP_DB_NAME** name used for IndexedDB database (created via dexie.js)
+- **REACT_APP_DB_TABLE_NAME** name used for CSV hero object store (created via dexie.js)
+- **REACT_APP_COLUMN_NAMES_KEY** localStorage key for persisting column names
+- **REACT_APP_FILE_NAME_KEY** localStorage key for persisting uploaded csv file metadata
+- **REACT_APP_FILTERS_KEY** localStorage key for persisting active filters
+- **REACT_APP_MAX_FILE_SIZE** file size limit when uploading csv files
+
+### This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
