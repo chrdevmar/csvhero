@@ -27,7 +27,8 @@ class ImportCSV extends Component {
 
   importFile(file) {
     const { fileChosen, importComplete, columnsUpdated } = this.props;    
-
+    let columnsSet = false;
+    let rowCount = 0;
     fileChosen(file);
     localStorage.setItem(process.env.REACT_APP_FILE_NAME_KEY, file.name)
     db[process.env.REACT_APP_DB_TABLE_NAME].clear()
@@ -36,14 +37,16 @@ class ImportCSV extends Component {
         header: true,
         dynamicTyping: true,
         skipEmptyLines: true,
-        complete: function(results) {
-          const columns = results.meta.fields;
-          columnsUpdated(columns);
-          localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, columns);
-          db[process.env.REACT_APP_DB_TABLE_NAME].bulkAdd(results.data)
-          .then(() => {
-            importComplete(results.data.length);
-          })
+        chunk: function(results) {
+          console.log('FINISHED A CHUNK', results);
+          if(!columnsSet) {
+            columnsUpdated(results.meta.fields);
+          }
+          rowCount += results.data.length;
+          db[process.env.REACT_APP_DB_TABLE_NAME].bulkAdd(results.data);
+        },
+        complete: function() {
+          importComplete(rowCount);
         }
       });
     })
