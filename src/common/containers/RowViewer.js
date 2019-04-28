@@ -3,6 +3,7 @@ import ReactDataGrid from 'react-data-grid';
 import '../styles/RowViewer.css'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import _debounce from 'lodash.debounce';
 
 import FilterList from '../../filter/components/FilterList';
 
@@ -10,6 +11,7 @@ import { Icon } from 'semantic-ui-react';
 
 import {
   fetchFilteredRows as _fetchFilteredRows,
+  countFilteredRows as _countFilteredRows,
   countTotalRows as _countTotalRows,
   removeFilter as _removeFilter,
   updateRow as _updateRow,
@@ -24,13 +26,27 @@ class RowViewer extends Component {
       ready: false,
       rowCount: 0
     }
-    this.updateRow = this.updateRow.bind(this)
+    this.updateRow = this.updateRow.bind(this);
+    this.fetchRows = this.fetchRows.bind(this);
   }
 
   componentDidMount(){
-    const { fetchFilteredRows, countTotalRows } = this.props;
+    const { fetchFilteredRows, countTotalRows, countFilteredRows } = this.props;
     countTotalRows();
-    fetchFilteredRows();
+    countFilteredRows();
+    console.log('COMPONENT MOUNTED')
+    fetchFilteredRows({
+      offset: 0,
+      limit: 60
+    });
+  }
+
+  fetchRows({ offset, limit}) {
+    const { fetchFilteredRows } = this.props;
+    fetchFilteredRows({
+      offset,
+      limit
+    })
   }
 
   updateRow({ fromRow, updated }) {
@@ -42,7 +58,7 @@ class RowViewer extends Component {
   }
 
   render() {
-    const { rows, columns, totalRows, filters, fetching } = this.props.data;
+    const { rows, columns, totalRows, filters, countingFilteredRows, filteredRowCount } = this.props.data;
     const mappedColumns = columns.map(col => ({
       key: col,
       name: col,
@@ -63,7 +79,7 @@ class RowViewer extends Component {
         <div className="row-viewer-header">
           <strong className="row-viewer-header-content">
             Showing
-            {' '}{ fetching ? (<Icon name="circle notched" loading></Icon>) : rows.length}{' '} 
+            {' '}{ countingFilteredRows ? (<Icon name="circle notched" loading></Icon>) : filteredRowCount}{' '} 
             of { totalRows } rows
           </strong>
           <FilterList filters={filters} removeFilter={removeFilter} size="small"/>
@@ -74,7 +90,13 @@ class RowViewer extends Component {
           rowGetter={rowGetter}
           enableCellSelect
           onGridRowsUpdated={this.updateRow}
-          rowsCount={rows.length}
+          rowsCount={filteredRowCount}
+          onScroll={_debounce(({ rowOverscanStartIdx, rowOverscanEndIdx}) => {
+              this.fetchRows({
+                offset: rowOverscanStartIdx,
+                limit: rowOverscanEndIdx - rowOverscanStartIdx
+              })
+            }, 200)}
         />
       </div>
     )
@@ -87,6 +109,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchFilteredRows: bindActionCreators(_fetchFilteredRows, dispatch),
+  countFilteredRows: bindActionCreators(_countFilteredRows, dispatch),
   countTotalRows: bindActionCreators(_countTotalRows, dispatch),
   removeFilter: bindActionCreators(_removeFilter, dispatch),
   updateRow: bindActionCreators(_updateRow, dispatch)

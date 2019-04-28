@@ -5,6 +5,8 @@ export const FETCH_FILTERED_ROWS_REQUESTED = 'FETCH_FILTERED_ROWS_REQUESTED';
 export const ROW_FILTER_UPDATED = 'ROW_FILTER_UPDATED';
 export const TOTAL_ROWS_COUNTED = 'TOTAL_ROWS_COUNTED';
 export const COUNT_TOTAL_ROWS = 'COUNT_TOTAL_ROWS';
+export const FILTERED_ROWS_COUNTED = 'FILTERED_ROWS_COUNTED';
+export const COUNT_FILTERED_ROWS = 'COUNT_FILTERED_ROWS';
 export const ADD_FILTER = 'ADD_FILTER';
 export const REMOVE_FILTER = 'REMOVE_FILTER';
 export const SET_FILTERS = 'SET_FILTERS';
@@ -28,6 +30,8 @@ const initialState = {
   isBulkUpdating: false,
   filters: filtersStr ? JSON.parse(filtersStr) : [],
   totalRows: 0,
+  countingFilteredRows: false,
+  filteredRowCount: 0,
   columns: columnsStr ? columnsStr.split(',') : []
 };
 
@@ -45,6 +49,17 @@ export default (state = initialState, action) => {
     return {
       ...state,
       totalRows: action.payload
+    }
+  case FILTERED_ROWS_COUNTED: 
+    return {
+      ...state,
+      countingFilteredRows: false,
+      filteredRowCount: action.payload,
+    }
+  case COUNT_FILTERED_ROWS: 
+    return {
+      ...state,
+      countingFilteredRows: true,
     }
   case IMPORT_COMPLETE: 
     return {

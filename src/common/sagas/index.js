@@ -8,8 +8,10 @@ import {
   FETCH_FILTERED_ROWS_SUCCESS,
   ROW_FILTER_UPDATED,
   IMPORT_COMPLETE,
-  TOTAL_ROWS_COUNTED,
   COUNT_TOTAL_ROWS,
+  TOTAL_ROWS_COUNTED,
+  COUNT_FILTERED_ROWS,
+  FILTERED_ROWS_COUNTED,
   COLUMNS_UPDATED,
   ADD_FILTER,
   REMOVE_FILTER,
@@ -117,11 +119,24 @@ function* updateRow(action){
   db[process.env.REACT_APP_DB_TABLE_NAME].update(row.id, updated)
 }
 
-function* fetchRows(){
+function* countFilteredRows() {
+  const filters = yield select(state => state.data.filters);
+
+  const filteredRowCount = yield call(() => {
+    return generateCollectionFromFilter(filters).count()
+  });
+
+  yield put({
+    type: FILTERED_ROWS_COUNTED,
+    payload: filteredRowCount,
+  });
+}
+
+function* fetchRows({ offset = 0, limit = 60}){
   const filters = yield select(state => state.data.filters);
 
   const filteredRows = yield call(() => {
-    return generateCollectionFromFilter(filters).toArray()
+    return generateCollectionFromFilter(filters).offset(offset).limit(limit).toArray()
   });
 
   yield put({
@@ -192,11 +207,17 @@ export function* watchApplyBulkEdit(){
 	yield takeLatest(APPLY_BULK_EDIT, applyBulkEdit);
 }
 
+export function* watchCountFilteredRows(){
+	yield takeLatest(COUNT_FILTERED_ROWS, countFilteredRows);
+}
+
 export function* watchFiltersSet(){
 	yield takeLatest(SET_FILTERS, function*() {
     yield put({
       type: FETCH_FILTERED_ROWS_REQUESTED
     })
+
+    yield countFilteredRows()
   });
 }
 

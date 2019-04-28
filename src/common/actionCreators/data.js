@@ -2,6 +2,7 @@ import {
   FILE_CHOSEN,
   IMPORT_COMPLETE,
   FETCH_FILTERED_ROWS_REQUESTED,
+  COUNT_FILTERED_ROWS,
   COUNT_TOTAL_ROWS,
   COLUMNS_UPDATED,
   ADD_FILTER,
@@ -33,6 +34,12 @@ export function fetchFilteredRows(filter) {
 export function countTotalRows() {
   return {
     type: COUNT_TOTAL_ROWS,
+  }
+}
+
+export function countFilteredRows() {
+  return {
+    type: COUNT_FILTERED_ROWS,
   }
 }
 

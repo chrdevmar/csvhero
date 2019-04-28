@@ -38,7 +38,6 @@ class ImportCSV extends Component {
         dynamicTyping: true,
         skipEmptyLines: true,
         chunk: function(results) {
-          console.log('FINISHED A CHUNK', results);
           if(!columnsSet) {
             columnsUpdated(results.meta.fields);
           }
@@ -56,13 +55,7 @@ class ImportCSV extends Component {
 
     if(acceptedFiles.length) {
       const [file] = acceptedFiles;
-      if(file.size <= process.env.REACT_APP_MAX_FILE_SIZE){
-        this.importFile(file);
-      } else {
-        this.setState({
-          fileTooBig: true
-        })
-      }
+      this.importFile(file);
     }
   }
 
