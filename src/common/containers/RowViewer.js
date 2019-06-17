@@ -13,6 +13,7 @@ import {
   countTotalRows as _countTotalRows,
   removeFilter as _removeFilter,
   updateRow as _updateRow,
+  resetDemoData as _resetDemoData,
 } from '../actionCreators/data';
 
 
@@ -28,9 +29,19 @@ class RowViewer extends Component {
   }
 
   componentDidMount(){
-    const { fetchFilteredRows, countTotalRows } = this.props;
-    countTotalRows();
-    fetchFilteredRows();
+    const { fetchFilteredRows, countTotalRows, resetDemoData } = this.props;
+    // if there are no column names or file name, populate with demo data
+    const columnNames = localStorage.getItem(process.env.REACT_APP_COLUMN_NAMES_KEY);
+    const fileName = localStorage.getItem(process.env.REACT_APP_FILE_NAME_KEY);
+
+    if(!(columnNames && fileName)) {
+      console.log('RESETTING');
+      resetDemoData();
+    } else {
+      console.log('NOT RESETTING');
+      countTotalRows();
+      fetchFilteredRows();
+    }
   }
 
   updateRow({ fromRow, updated }) {
@@ -57,13 +68,13 @@ class RowViewer extends Component {
     }));
     const { removeFilter } = this.props;
     const rowGetter = index => rows[index]
-    
+
     return (
       <div className="row-viewer-panel">
         <div className="row-viewer-header">
           <strong className="row-viewer-header-content">
             Showing
-            {' '}{ fetching ? (<Icon name="circle notched" loading></Icon>) : rows.length}{' '} 
+            {' '}{ fetching ? (<Icon name="circle notched" loading></Icon>) : rows.length}{' '}
             of { totalRows } rows
           </strong>
           <FilterList filters={filters} removeFilter={removeFilter} size="small"/>
@@ -89,7 +100,8 @@ const mapDispatchToProps = dispatch => ({
   fetchFilteredRows: bindActionCreators(_fetchFilteredRows, dispatch),
   countTotalRows: bindActionCreators(_countTotalRows, dispatch),
   removeFilter: bindActionCreators(_removeFilter, dispatch),
-  updateRow: bindActionCreators(_updateRow, dispatch)
+  updateRow: bindActionCreators(_updateRow, dispatch),
+  resetDemoData: bindActionCreators(_resetDemoData, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RowViewer);

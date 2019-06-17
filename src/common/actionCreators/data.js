@@ -1,4 +1,4 @@
-import { 
+import {
   FILE_CHOSEN,
   IMPORT_COMPLETE,
   FETCH_FILTERED_ROWS_REQUESTED,
@@ -6,13 +6,20 @@ import {
   COLUMNS_UPDATED,
   ADD_FILTER,
   REMOVE_FILTER,
-  ROW_UPDATED
+  ROW_UPDATED,
+  RESET_DEMO_DATA,
 } from '../reducers/data';
 
 export function fileChosen(data) {
   return {
     type: FILE_CHOSEN,
     payload: data
+  }
+}
+
+export function resetDemoData() {
+  return {
+    type: RESET_DEMO_DATA
   }
 }
 
