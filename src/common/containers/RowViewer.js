@@ -35,10 +35,8 @@ class RowViewer extends Component {
     const fileName = localStorage.getItem(process.env.REACT_APP_FILE_NAME_KEY);
 
     if(!(columnNames && fileName)) {
-      console.log('RESETTING');
       resetDemoData();
     } else {
-      console.log('NOT RESETTING');
       countTotalRows();
       fetchFilteredRows();
     }

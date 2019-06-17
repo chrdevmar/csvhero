@@ -170,7 +170,6 @@ function* resetDemoData() {
     return import('../../demoData/5000-sales-records-demo.js');
   })
 
-  console.log('DEMO DATA', demoData.default);
   yield put({
     type: FILE_CHOSEN,
     payload: {
