@@ -19,6 +19,8 @@ import {
   BULK_EDIT_COMPLETE,
   ROW_UPDATED,
   SET_ROWS,
+  RESET_DEMO_DATA,
+  FILE_CHOSEN
 } from '../reducers/data';
 
 function generateCollectionFromFilter(filters = []) {
@@ -106,7 +108,7 @@ function* updateRow(action){
   })
   const rows = yield select(state => state.data.rows);
   const row = rows[fromRow];
-  
+
   rows.splice(fromRow, 1, {...row, ...updated});
 
   yield put({
@@ -162,8 +164,50 @@ function* applyBulkEdit(action){
   });
 }
 
+function* resetDemoData() {
+
+  const demoData = yield call(() => {
+    return import('../../demoData/5000-sales-records-demo.js');
+  })
+
+  yield put({
+    type: FILE_CHOSEN,
+    payload: {
+      name: '5000 Sales Records Demo'
+    }
+  });
+
+  const columns = Object.keys(demoData.default[0]);
+
+  yield put({
+    type: COLUMNS_UPDATED,
+    payload: columns
+  });
+
+  localStorage.setItem(process.env.REACT_APP_COLUMN_NAMES_KEY, columns)
+  localStorage.setItem(process.env.REACT_APP_FILE_NAME_KEY, '5000 Sales Records Demo');
+  localStorage.setItem(process.env.REACT_APP_FILTERS_KEY, []);
+
+  yield call(() => db[process.env.REACT_APP_DB_TABLE_NAME].clear());
+  yield call(() => db[process.env.REACT_APP_DB_TABLE_NAME].bulkAdd(demoData.default));
+
+  yield put({
+    type: IMPORT_COMPLETE,
+    payload: demoData.default.length
+  });
+
+  yield put({
+    type: SET_FILTERS,
+    payload: []
+  })
+}
+
 export function* watchFetchFilteredRowsRequested(){
 	yield takeLatest(FETCH_FILTERED_ROWS_REQUESTED, fetchRows);
+}
+
+export function* watchResetDemoData(){
+	yield takeLatest(RESET_DEMO_DATA, resetDemoData);
 }
 
 export function* watchRowUpdate(){

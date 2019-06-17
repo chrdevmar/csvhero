@@ -14,6 +14,7 @@ export const BULK_EDIT_START = 'BULK_EDIT_START';
 export const BULK_EDIT_COMPLETE = 'BULK_EDIT_COMPLETE';
 export const ROW_UPDATED = 'ROW_UPDATED';
 export const SET_ROWS = 'SET_ROWS';
+export const RESET_DEMO_DATA = 'RESET_DEMO_DATA';
 
 let columnsStr = localStorage.getItem(process.env.REACT_APP_COLUMN_NAMES_KEY);
 let filtersStr = localStorage.getItem(process.env.REACT_APP_FILTERS_KEY);
@@ -41,29 +42,29 @@ export default (state = initialState, action) => {
       file: action.payload,
       totalRows: 0
     }
-  case TOTAL_ROWS_COUNTED: 
+  case TOTAL_ROWS_COUNTED:
     return {
       ...state,
       totalRows: action.payload
     }
-  case IMPORT_COMPLETE: 
+  case IMPORT_COMPLETE:
     return {
       ...state,
       importing: false,
       totalRows: action.payload
     }
-  case FETCH_FILTERED_ROWS_SUCCESS: 
+  case FETCH_FILTERED_ROWS_SUCCESS:
     return {
       ...state,
       fetching: false,
       rows: action.payload
     }
-  case FETCH_FILTERED_ROWS_REQUESTED: 
+  case FETCH_FILTERED_ROWS_REQUESTED:
     return {
       ...state,
       fetching: true
     }
-  case SET_FILTERS: 
+  case SET_FILTERS:
     return {
       ...state,
       filters: action.payload
