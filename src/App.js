@@ -9,6 +9,7 @@ import RowViewer from './common/containers/RowViewer';
 import ActionPanel from './common/components/ActionPanel';
 
 class App extends Component {
+
   render() {
     return (
       <div id="App">

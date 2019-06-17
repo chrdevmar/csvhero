@@ -13,20 +13,22 @@ import {
   fileChosen as _fileChosen,
   importComplete as _importComplete,
   columnsUpdated as _columnsUpdated,
+  resetDemoData as _resetDemoData,
 } from '../actionCreators/data';
 
 class ImportCSV extends Component {
   constructor(props){
     super(props);
     this.onFileChosen = this.onFileChosen.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.closeConfirm = this.closeConfirm.bind(this);
     this.state = {
-      fileTooBig: false
+      fileTooBig: false,
+      confirmDemoData: false
     }
   }
 
   importFile(file) {
-    const { fileChosen, importComplete, columnsUpdated } = this.props;    
+    const { fileChosen, importComplete, columnsUpdated } = this.props;
     let columnsSet = false;
     let rowCount = 0;
     fileChosen(file);
@@ -66,18 +68,18 @@ class ImportCSV extends Component {
     }
   }
 
-  closeModal() {
+  closeConfirm(key) {
     this.setState({
-      fileTooBig: false
+      [key]: false
     })
   }
 
   render() {
-    const { data } = this.props;
-    const { fileTooBig } = this.state;
+    const { data, resetDemoData } = this.props;
+    const { fileTooBig, confirmDemoData } = this.state;
     return (
       <React.Fragment>
-        <Dropzone onDrop={this.onFileChosen}>
+        <Dropzone onDrop={this.onFileChosen} accept="text/csv">
           {({getRootProps, getInputProps}) => (
             <section>
               <div {...getRootProps()}>
@@ -90,18 +92,44 @@ class ImportCSV extends Component {
             </section>
           )}
         </Dropzone>
-        <Confirm 
-          open={fileTooBig} 
-          onCancel={this.closeModal} 
-          onConfirm={this.closeModal}
+        <section>
+          <Button
+            basic icon labelPosition='left' size="small"
+            onClick={() => this.setState({confirmDemoData: true})}>
+            <Icon name="book" />
+            Demo Data
+          </Button>
+        </section>
+        <Confirm
+          open={fileTooBig}
+          onCancel={() => this.closeConfirm('fileTooBig')}
+          onConfirm={() => this.closeConfirm('fileTooBig')}
           header="File too large"
           content={(
-            <div className="file-too-big-content">
+            <div className="confirmation-content">
               <Message color="orange">
                 <Message.Header>Sorry about that</Message.Header>
-                If we try to process this file, 
+                If we try to process this file,
                 your computer will curl up in the fetal position and cry.<br/>
                 We are working on supporting larger files.
+              </Message>
+            </div>
+          )}
+        />
+        <Confirm
+          open={confirmDemoData}
+          onCancel={() => this.closeConfirm('confirmDemoData')}
+          onConfirm={() => {
+            this.closeConfirm('confirmDemoData');
+            resetDemoData()
+          }}
+          header="Reset demo data"
+          content={(
+            <div className="confirmation-content">
+              <Message color="orange">
+                <Message.Header>Reset demo data</Message.Header>
+                Are you sure? This will replace your working dataset with demo sales data.<br/>
+                Please make sure any changes you wish to keep are exported.
               </Message>
             </div>
           )}
@@ -117,6 +145,7 @@ const mapDispatchToProps = dispatch => ({
   fileChosen: bindActionCreators(_fileChosen, dispatch),
   importComplete: bindActionCreators(_importComplete, dispatch),
   columnsUpdated: bindActionCreators(_columnsUpdated, dispatch),
+  resetDemoData: bindActionCreators(_resetDemoData, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportCSV);
